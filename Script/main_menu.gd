@@ -14,6 +14,7 @@ func _ready():
 
 
 func _on_Play_pressed():
+	get_tree().change_scene("res://Scene/choose_mode_menu.scn")
 	pass # replace with function body
 
 

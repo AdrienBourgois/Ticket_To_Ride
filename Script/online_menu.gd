@@ -20,8 +20,13 @@ func _on_HostButton_pressed():
 	pass
 
 func _on_ConnectButton_pressed():
-	print("ConnectButton pressed! try to connect to the server at"+ get_node("Connect/EnterIP").get_text()+". Nickname: "+ get_node("Host/EnterName").get_text())
+	print("ConnectButton pressed! try to connect to the server at: "+ get_node("Connect/EnterIP").get_text()+" with the Nickname: "+ get_node("Host/EnterName").get_text())
 	#var newScene = load("res://Scene/test_scene.scn").instance()
 	#hide()
 	#add_child(newScene)
 	pass
+
+
+func _on_Button_pressed():
+	get_tree().change_scene("res://Scene/choose_mode_menu.scn")
+	pass # replace with function body
