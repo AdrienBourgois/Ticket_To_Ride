@@ -13,7 +13,8 @@ func _ready():
 		debug.newline()
 		set_process(true)
 	else:
-		get_node("AcceptDialog").set_text("Fail to start on port" + str(port))
+		get_node("FailPort").show()
+		get_node("FailPort").set_text("Fail to start on port" + str(port))
 
 func _process(delta):
 	if server.is_connection_available():
@@ -26,3 +27,11 @@ func _process(delta):
 		if !client.is_connected():
 			var index = connection.find(client)
 			connection.remove(index)
+
+
+
+
+func _on_FailPort_confirmed():
+	get_node("../../Control").show()
+	self.queue_free()
+	pass # replace with function body
