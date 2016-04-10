@@ -17,6 +17,7 @@ var road         = { "type": "road" }
 
 func add_card(card_type, count):
 	var card = str2var(var2str(card_type))
+	
 	for i in range(count):
 		card["id"] = id
 		deck.append(card)
@@ -38,7 +39,20 @@ func create_deck():
 
 func _ready():
 	create_deck()
+	mix_deck()
 	for card in deck:
 		print(card)
 
-
+func mix_deck():
+	var size = deck.size()
+	var cur_card = 0
+	var mixed_deck = []
+	
+	for i in range(size):
+		randomize()
+		cur_card = randi() % deck.size()
+		mixed_deck.append(deck[cur_card])
+		deck.erase(deck[cur_card])
+	
+	deck = mixed_deck
+	
