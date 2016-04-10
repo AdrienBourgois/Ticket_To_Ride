@@ -3,6 +3,7 @@ extends Node
 
 var deck = []
 var id = 1
+var Card_class = load("res://Script/card.gd")
 
 var wagon_pink   = { "type": "wagon", "color": "pink" }
 var wagon_white  = { "type": "wagon", "color": "white" }
@@ -40,8 +41,11 @@ func create_deck():
 func _ready():
 	create_deck()
 	mix_deck()
-	for card in deck:
-		print(card)
+	#for card in deck:
+	#	print(card)
+	
+	var card = Card_class.new(deck[0])
+	add_child(card)
 
 func mix_deck():
 	var size = deck.size()
