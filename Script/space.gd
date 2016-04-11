@@ -2,6 +2,7 @@ extends Spatial
 
 var wagon_res
 var is_occupied
+var parameter
 
 func _ready():
 	wagon_res = preload("res://Scene/wagon.scn")
@@ -17,4 +18,4 @@ func _on_StaticBody_input_event( camera, event, click_pos, click_normal, shape_i
 		print("wagon already placed")
 
 func _set_color_space():
-	get_node("space").get_material_override().set_parameter(0, Color(1.0,0.0,0.0,1.0))
+	get_node("space").get_material_override().set_parameter(0, parameter)
