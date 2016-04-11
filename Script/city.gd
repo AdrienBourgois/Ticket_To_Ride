@@ -12,6 +12,8 @@ func _add_train_station():
 	add_child(TrainStation)
 	Is_build = true
 
+
+
 func _on_City_input_event( camera, event, click_pos, click_normal, shape_idx ):
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		print("Click on : ",Name)
