@@ -9,6 +9,7 @@ var ip
 var connection # your connection (StreamPeerTCP) object
 var peer # your data transfer (PacketPeerStream) object
 var connected = false
+var player = null
 var clones = {} # dictionary for finding clones more easily
 
 var timeout = 5
@@ -19,6 +20,7 @@ func _ready():
 	connection.connect( ip, port )
 	peer = PacketPeerStream.new()
 	peer.set_stream_peer( connection )
+	player = get_node("Spatial")
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		set_process(true) # start processing if connected
 		connected = true
@@ -56,6 +58,22 @@ func _process( delta ):
 			var data = peer.get_var()
 			if data[0] == PLAYER_CONNECT:
 				data.remove(0)
+				for name in data:
+					var new_player = load("res://Scene/player_test.scn").instance()
+					new_player.name = name
+					add_child(new_player)
+					clones[name] = new_player
+			elif data[0] == PLAYER_DATA:
+				data.remove(0)
+				for _data in data:
+					continue
+			
+					if clones.has(_data[0]):
+						clones[_data[0]].set_global_transform(get_global_transform())
+		if connected:
+			var pos = player.get_global_transform()
+			peer.put_var([PLAYER_DATA, int(pos.origin.x), int(pos.origin.y)])
+
 
 func _back_to_menu():
 	if connection:
