@@ -22,8 +22,7 @@ func create_world():
 	add_city({ "name": "Saint-Petersbourg", "pos": Vector3(-15, 0, 15) })
 	add_city({ "name": "Rostov", "pos": Vector3(-15, 0, -5) })
 
-func add_city(CityType):
-	var City = str2var(var2str(CityType))
+func add_city(City):
 	City["id"] = Id
 	Cities.append(City)
 	Id += 1
