@@ -35,10 +35,8 @@ func create_road_card(count):
 		
 		if (cities_not_used.size() < 2):
 			cities_not_used = str2var(var2str(cities))
-			print("Redeck")
 		
 		randomize()
-		print(cities_not_used.size())
 		var city1 = cities_not_used[randi() % cities_not_used.size()]
 		cities_not_used.erase(city1)
 		var city2 = cities_not_used[randi() % cities_not_used.size()]

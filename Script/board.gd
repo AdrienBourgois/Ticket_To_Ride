@@ -7,8 +7,8 @@ var Id = 1
 
 func _ready():
 	create_world()
-	for City in Cities:
-		print(City)
+	#for City in Cities:
+	#	print(City)
 
 func create_world():
 	add_city({ "name": "Paris", "pos": Vector3(20, 0, 0) })
