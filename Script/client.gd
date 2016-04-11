@@ -1,58 +1,70 @@
 
-extends Node
 
-const port = 3560
+extends "res://Script/net_constants.gd"
+
+const port = 11500
 var ip
 
-var server
-var debug # kind of own debug console 
 
 var connection # your connection (StreamPeerTCP) object
-var connected = false # for additional connection check
+var peer # your data transfer (PacketPeerStream) object
+var connected = false
+var clones = {} # dictionary for finding clones more easily
+
 var timeout = 5
 
 
 func _ready():
-	debug = get_node("Debug")
 	connection = StreamPeerTCP.new()
-	connection.connect(ip, port)
+	connection.connect( ip, port )
+	peer = PacketPeerStream.new()
+	peer.set_stream_peer( connection )
 	if connection.get_status() == connection.STATUS_CONNECTED:
-		debug.add_text( "Connected to "+ip+" :"+str(port) )
-		debug.newline()
-		set_process(true)
+		set_process(true) # start processing if connected
 		connected = true
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
-		debug.add_text( "Trying to connect "+ip+" :"+str(port) )
-		debug.newline()
-		set_process(true)
+		get_node("TimeOut").show()
+		set_process(true) # or if trying to connect
 	elif connection.get_status() == connection.STATUS_NONE or connection.get_status() == StreamPeerTCP.STATUS_ERROR:
+		get_node("FailConnect").set_text("ERROR: BAD ADDRESS!")
 		get_node("FailConnect").show()
-		get_node("FailConnect").set_text( "Couldn't connect to "+ip+" :"+str(port) )
-	pass
 
-func _process(delta):
-	if !connected:
+func _process( delta ):
+	if Input.is_key_pressed( KEY_ESCAPE ): # press Esc to quit to menu
+		_back_to_menu()
+		return
+	if !connected: # not connected, but processing means we got STATUS_CONNECTING earlier
 		if connection.get_status() == connection.STATUS_CONNECTED:
-			debug.add_text( "Connected to "+ip+" :"+str(port) )
-			debug.newline()
+			print( "Connected to "+ip+" :"+str(port) )
 			connected = true
 			get_node("TimeOut").hide()
-			return
-		
+			return # end this _process run
 		if timeout > 0:
 			timeout -= delta
-			get_node("TimeOut").set_text("Time out in :" + str(ceil(timeout)))
+			get_node("TimeOut").set_text( "Timeout in: "+str(ceil(timeout)) ) # display timer
 		else:
+			get_node("FailConnect").set_text("ERROR: Server Time Out!")
 			get_node("FailConnect").show()
-			get_node("FailConnect").set_text("Server Timed Out")
 	
 	if connection.get_status() == connection.STATUS_NONE or connection.get_status() == connection.STATUS_ERROR:
+		get_node("FailConnect").set_text("ERROR: Server Disconnected!")
 		get_node("FailConnect").show()
-		get_node("FailConnect").set_text("Server Disconnected!")
 		set_process(false)
-	pass
+	
+	if peer.get_available_packet_count() > 0:
+		for i in range(peer.get_available_packet_count()):
+			var data = peer.get_var()
+			if data[0] == PLAYER_CONNECT:
+				data.remove(0)
+
+func _back_to_menu():
+	if connection:
+		connection.disconnect()
+	get_node("../../Control").show() # show menu
+	self.queue_free() # remove yourself at idle frame
 
 
 func _on_FailConnect_confirmed():
 	get_node("../../Control").show()
 	self.queue_free()
+	pass # replace with function body
