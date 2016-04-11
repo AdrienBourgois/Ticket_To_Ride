@@ -3,17 +3,17 @@ extends Node
 
 var deck = []
 var id = 1
-var Card_class = load("res://Script/card.gd")
+var Card_scene = preload("res://Scene/card.scn")
 
-var wagon_pink   = { "type": "wagon", "color": "pink" }
-var wagon_white  = { "type": "wagon", "color": "white" }
-var wagon_blue   = { "type": "wagon", "color": "blue" }
-var wagon_yellow = { "type": "wagon", "color": "yellow" }
-var wagon_orange = { "type": "wagon", "color": "orange" }
-var wagon_black  = { "type": "wagon", "color": "black" }
-var wagon_red    = { "type": "wagon", "color": "red" }
-var wagon_green  = { "type": "wagon", "color": "green" }
-var locomotive   = { "type": "wagon", "color": "locomotive" }
+var wagon_pink   = { "type": "wagon", "sub-type": "color", "color-code": colors.pink,   "color": "pink" }
+var wagon_white  = { "type": "wagon", "sub-type": "color", "color-code": colors.white,  "color": "white"}
+var wagon_blue   = { "type": "wagon", "sub-type": "color", "color-code": colors.blue,   "color": "blue" }
+var wagon_yellow = { "type": "wagon", "sub-type": "color", "color-code": colors.yellow, "color": "yellow" }
+var wagon_orange = { "type": "wagon", "sub-type": "color", "color-code": colors.orange, "color": "orange" }
+var wagon_black  = { "type": "wagon", "sub-type": "color", "color-code": colors.black,  "color": "black" }
+var wagon_red    = { "type": "wagon", "sub-type": "color", "color-code": colors.red,    "color": "red" }
+var wagon_green  = { "type": "wagon", "sub-type": "color", "color-code": colors.green,  "color": "green" }
+var locomotive   = { "type": "wagon", "sub-type": "locomotive" }
 var road         = { "type": "road" }
 
 func add_card(card_type, count):
@@ -41,11 +41,13 @@ func create_deck():
 func _ready():
 	create_deck()
 	mix_deck()
-	#for card in deck:
-	#	print(card)
+	for card in deck:
+		print(card)
 	
-	var card = Card_class.new(deck[0])
-	add_child(card)
+	for i in range(deck.size()):
+		var card = Card_scene.instance()
+		card.prepare_card(deck[i], i)
+		add_child(card)
 
 func mix_deck():
 	var size = deck.size()
@@ -59,4 +61,3 @@ func mix_deck():
 		deck.erase(deck[cur_card])
 	
 	deck = mixed_deck
-	
