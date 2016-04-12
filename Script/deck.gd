@@ -81,6 +81,11 @@ func _ready():
 		var card = Card_scene.instance()
 		add_child(card)
 		card.prepare_card(deck_road[i], i)
+	get_children()[111].flip_to(get_node("/root/Game/Board/Card_Location_1").get_translation())
+	get_children()[11].flip_to(get_node("/root/Game/Board/Card_Location_2").get_translation())
+	get_children()[50].flip_to(get_node("/root/Game/Board/Card_Location_3").get_translation())
+	get_children()[20].flip_to(get_node("/root/Game/Board/Card_Location_4").get_translation())
+	get_children()[54].flip_to(get_node("/root/Game/Board/Card_Location_5").get_translation())
 
 func mix_deck(deck):
 	var size = deck.size()
