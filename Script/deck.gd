@@ -77,10 +77,13 @@ func _ready():
 		var card = Card_scene.instance()
 		add_child(card)
 		card.prepare_card(deck_wagon[i], i)
+		deck_wagon[i] = card
 	for i in range(deck_road.size()):
 		var card = Card_scene.instance()
 		add_child(card)
 		card.prepare_card(deck_road[i], i)
+		deck_road[i] = card
+	
 	get_children()[111].flip_to(get_node("/root/Game/Board/Card_Location_1").get_translation())
 	get_children()[11].flip_to(get_node("/root/Game/Board/Card_Location_2").get_translation())
 	get_children()[50].flip_to(get_node("/root/Game/Board/Card_Location_3").get_translation())
@@ -99,3 +102,8 @@ func mix_deck(deck):
 		deck.erase(deck[cur_card])
 	
 	return mixed_deck
+
+func get_card_wagon():
+	var card = deck_wagon[deck_wagon.size() - 1]
+	deck_wagon.erase(card)
+	return card

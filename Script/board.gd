@@ -2,15 +2,15 @@
 extends Spatial
 var CityScn = preload("res://Scene/city.scn")
 var PathScn = preload("res://Scene/path.scn")
+var CardSlotScn = preload("res://Scene/card_location.scn")
 
 var Cities = []
 var Paths = []
+var Slots = []
 var Id = 1
 
 func _ready():
 	create_world()
-	#for City in Cities:
-	#	print(City)
 
 func create_world():
 	add_city({ "name": "Paris", "pos": Vector3(20, 0, 0) })
@@ -23,8 +23,8 @@ func create_world():
 	add_city({ "name": "Vilnius", "pos": Vector3(-8, 0, 8) })
 	add_city({ "name": "Saint-Petersbourg", "pos": Vector3(-15, 0, 15) })
 	add_city({ "name": "Rostov", "pos": Vector3(-15, 0, -5) })
-	#_add_path({ "pos": Vector3(20, 0, 2), "NbrSpace": 6, "Type": "normal", "color": colors.green})
-	#_add_path({ "pos": Vector3(12, 0, 12), "NbrSpace": 4, "Type": "normal", "color": colors.red})
+	_add_path({ "pos": Vector3(20, 0, 2), "NbrSpace": 6, "Type": "normal", "color": colors.green})
+	_add_path({ "pos": Vector3(12, 0, 12), "NbrSpace": 4, "Type": "normal", "color": colors.red})
 
 func add_city(City):
 	City["id"] = Id
@@ -44,3 +44,7 @@ func _add_path(PathType):
 	New_path._add_space(path["NbrSpace"], path["color"])
 	add_child(New_path)
 	New_path.translate(path["pos"])
+
+#func _add_slot(count):
+#	for i in range(count)
+#		
