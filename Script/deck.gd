@@ -1,9 +1,11 @@
 
 extends Node
 
-var deck = []
+var deck_wagon = []
+var deck_road = []
 var id = 1
 var Card_scene = preload("res://Scene/card.scn")
+var cities = null
 
 var wagon_pink   = { "type": "wagon", "sub-type": "color", "color-code": colors.pink,   "color": "pink" }
 var wagon_white  = { "type": "wagon", "sub-type": "color", "color-code": colors.white,  "color": "white"}
@@ -21,11 +23,31 @@ func add_card(card_type, count):
 	
 	for i in range(count):
 		card["id"] = id
-		deck.append(card)
+		deck_wagon.append(card)
 		id += 1
 
-func create_road_card():
-	pass
+func create_road_card(count):
+	cities = get_node("/root/Game/Board").Cities
+	
+	var cities_not_used = []
+	
+	for i in range(count):
+		
+		if (cities_not_used.size() < 2):
+			cities_not_used = str2var(var2str(cities))
+		
+		randomize()
+		var city1 = cities_not_used[randi() % cities_not_used.size()]
+		cities_not_used.erase(city1)
+		var city2 = cities_not_used[randi() % cities_not_used.size()]
+		cities_not_used.erase(city2)
+		
+		var card = str2var(var2str(road))
+		card["city1"] = city1
+		card["city2"] = city2
+		card["id"] = id
+		deck_road.append(card)
+		id += 1
 
 func create_deck():
 	add_card(wagon_pink, 12)
@@ -37,19 +59,27 @@ func create_deck():
 	add_card(wagon_red, 12)
 	add_card(wagon_green, 12)
 	add_card(locomotive, 14)
+	create_road_card(40)
 
 func _ready():
 	create_deck()
-	mix_deck()
-	for card in deck:
-		print(card)
+	deck_road = mix_deck(deck_road)
+	deck_wagon = mix_deck(deck_wagon)
+	#for card in deck_wagon:
+	#	print(card)
+	#for card in deck_road:
+	#	print(card)
 	
-	for i in range(deck.size()):
+	for i in range(deck_wagon.size()):
 		var card = Card_scene.instance()
-		card.prepare_card(deck[i], i)
+		card.prepare_card(deck_wagon[i], i)
+		add_child(card)
+	for i in range(deck_road.size()):
+		var card = Card_scene.instance()
+		card.prepare_card(deck_road[i], i)
 		add_child(card)
 
-func mix_deck():
+func mix_deck(deck):
 	var size = deck.size()
 	var cur_card = 0
 	var mixed_deck = []
@@ -60,4 +90,4 @@ func mix_deck():
 		mixed_deck.append(deck[cur_card])
 		deck.erase(deck[cur_card])
 	
-	deck = mixed_deck
+	return mixed_deck

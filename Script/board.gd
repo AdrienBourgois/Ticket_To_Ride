@@ -9,8 +9,8 @@ var Id = 1
 
 func _ready():
 	create_world()
-	for City in Cities:
-		print(City)
+	#for City in Cities:
+	#	print(City)
 
 func create_world():
 	add_city({ "name": "Paris", "pos": Vector3(20, 0, 0) })
@@ -26,8 +26,7 @@ func create_world():
 	_add_path({ "pos": Vector3(20, 0, 2), "NbrSpace": 6, "Type": "normal", "color": colors.green})
 	_add_path({ "pos": Vector3(12, 0, 12), "NbrSpace": 4, "Type": "normal", "color": colors.red})
 
-func add_city(CityType):
-	var City = str2var(var2str(CityType))
+func add_city(City):
 	City["id"] = Id
 	Cities.append(City)
 	Id += 1
