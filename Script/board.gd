@@ -23,8 +23,8 @@ func create_world():
 	add_city({ "name": "Vilnius", "pos": Vector3(-8, 0, 8) })
 	add_city({ "name": "Saint-Petersbourg", "pos": Vector3(-15, 0, 15) })
 	add_city({ "name": "Rostov", "pos": Vector3(-15, 0, -5) })
-	_add_path({ "pos": Vector3(20, 0, 2), "NbrSpace": 6, "Type": "normal", "color": colors.green})
-	_add_path({ "pos": Vector3(12, 0, 12), "NbrSpace": 4, "Type": "normal", "color": colors.red})
+	#_add_path({ "pos": Vector3(20, 0, 2), "NbrSpace": 6, "Type": "normal", "color": colors.green})
+	#_add_path({ "pos": Vector3(12, 0, 12), "NbrSpace": 4, "Type": "normal", "color": colors.red})
 
 func add_city(City):
 	City["id"] = Id
