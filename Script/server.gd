@@ -11,12 +11,9 @@ class client_data:
 	var peer = PacketPeerStream.new()
 
 func _ready():
-	debug = get_node("Debug")
 	server = TCP_Server.new()
 	player = get_node("Spatial")
 	if server.listen( port ) == 0:
-		debug.add_text("Server Start on port: " + str(port))
-		debug.newline()
 		set_process(true)
 	else:
 		get_node("FailPort").show()
@@ -29,45 +26,44 @@ func _process(delta):
 		var client = server.take_connection()
 		connection[client] = client_data.new()
 		connection[client].peer.set_stream_peer(client)
-		debug.add_text("Client has connected!")
-		debug.newline()
 	
 	for client in connection:
 		if !client.is_connected():
-			if connection[client].player:
-				for cl in client:
-					if cl == client:
-						continue
-					var pos = connection[client].player.get_transform.origin
-					connection[cl].peer.put_var([PLAYER_DATA, [connection[client].player.name, int (pos.x), int(pos.y)] ] )
+			connection[client].player.get_node("TestCube").queue_free()
+#			if connection[client].player:
+#				for cl in client:
+#					if cl == client:
+#						continue
+#					var pos = connection[client].player.get_transform.origin
+#					connection[cl].peer.put_var([PLAYER_DATA, [connection[client].player.name, int (pos.x), int(pos.y), "Quit"] ] )
+#				connection[client].player.anim = "Quit" 
 			connection.erase(client)
 			continue
-		
-		if connection[client].peer.get_available_packet_count() > 0:
-			for i in range( connection[client].peer.get_available_packet_count()):
-				var data = connection[client].peer.get_var()
-				if data[0] == PLAYER_DATA:
-					if connection[client].player:
-						continue
+		if client.is_connected():
+			if connection[client].peer.get_available_packet_count() > 0:
+				for i in range( connection[client].peer.get_available_packet_count()):
+					var data = connection[client].peer.get_var()
+					if data[0] == PLAYER_CONNECT:
+						if connection[client].player:
+							continue
 				
-					var new_player = load("res://scene/player_test.scn").instance()
-					print(new_player)
-					connection[client].player = new_player
-					print(connection[client].player)
-					add_child(new_player)
-					BroadcastConnect(client)
-					SendConnect(client)
-				elif data[0] == PLAYER_CONNECT:
-					connection[client].player.set_transform(get_node("Spatial").get_global_transform())
-	BroadcastData()
+						var new_player = load("res://Scene/player_test.scn").instance()
+						connection[client].player = new_player
+						add_child(new_player)
+						BroadcastConnect(client)
+						SendConnect(client)
+						print("Data in Process = ", data)
+					elif data[0] == PLAYER_DATA:
+						connection[client].player.set_translation(Vector3(data[1], data[2], 0))
+				BroadcastData()
 
 func BroadcastData():
 	var data = [ PLAYER_DATA, [int(player.get_global_transform().origin.x), int(player.get_global_transform().origin.y)]]
 	for client in connection:
-		print(connection[client].player)
 		var char = connection[client].player
-		print(char)
-		#data.append([int(char.get_global_transform().origin.x), int(char.get_global_transform().origin().y)])
+		if char != null:
+			data.append([int(char.get_global_transform().origin.x), int(char.get_global_transform().origin.y)])
+			print("Data in BroadcastData = ", data)
 	
 	for client in connection:
 		connection[client].peer.put_var(data)
@@ -81,7 +77,7 @@ func BroadcastConnect(client):
 
 func SendConnect(client):
 	var data = [PLAYER_CONNECT]
-	for cl in connection():
+	for cl in connection:
 		if cl == client:
 			continue
 		

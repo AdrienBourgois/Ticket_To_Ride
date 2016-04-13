@@ -24,6 +24,7 @@ func _ready():
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		set_process(true) # start processing if connected
 		connected = true
+		peer.put_var([PLAYER_CONNECT])
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
 		get_node("TimeOut").show()
 		set_process(true) # or if trying to connect
@@ -37,7 +38,6 @@ func _process( delta ):
 		return
 	if !connected: # not connected, but processing means we got STATUS_CONNECTING earlier
 		if connection.get_status() == connection.STATUS_CONNECTED:
-			print( "Connected to "+ip+" :"+str(port) )
 			connected = true
 			get_node("TimeOut").hide()
 			return # end this _process run
@@ -60,22 +60,23 @@ func _process( delta ):
 				data.remove(0)
 				for name in data:
 					var new_player = load("res://Scene/player_test.scn").instance()
-					new_player.name = name
 					add_child(new_player)
-					clones[name] = new_player
 			elif data[0] == PLAYER_DATA:
 				data.remove(0)
 				for _data in data:
 					continue
 			
 					if clones.has(_data[0]):
-						clones[_data[0]].set_global_transform(get_global_transform())
-		if connected:
-			var pos = player.get_global_transform()
-			peer.put_var([PLAYER_DATA, int(pos.origin.x), int(pos.origin.y)])
+						clones[_data[0]].set_translation(Vector3(data[1], data[2], 0))
+	if connected:
+		var pos = player.get_global_transform()
+		peer.put_var([PLAYER_DATA, int(pos.origin.x), int(pos.origin.y)])
+		print(peer.put_var([PLAYER_DATA, int(pos.origin.x), int(pos.origin.y)]))
 
 
 func _back_to_menu():
+	peer.put_var([PLAYER_DATA, int(1600)])
+	print(peer.put_var([PLAYER_DATA, int(1600)]))
 	if connection:
 		connection.disconnect()
 	get_node("../../Control").show() # show menu
