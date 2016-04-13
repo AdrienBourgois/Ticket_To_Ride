@@ -2,12 +2,11 @@ extends Spatial
 
 var space_scene = preload("res://Scene/space.scn")
 var spaces = []
-var id = 1
 var NbrSpace = {}
 var color = {}
+var path_type = {}
 
 func _ready():
-	#_set_type_path()
 	pass
 
 func _add_space(_NbrSpace, _color):
@@ -19,17 +18,10 @@ func _add_space(_NbrSpace, _color):
 		add_child(space)
 		spaces.append(space)
 
- """func _set_type_path():
-	if path["Type"] == "normal":
-		print("Road normal")
-	if path["Type"] == "tunnel":
-		print("Tunnel")
-		print("Pioche 3 Cards")
-	if path["Type"] == "simple ferry":
-		print("Simple ferry")
-	if path["Type"] == "double ferry":
-		print("Double ferry")"""
+func _set_type_path(_path_type):
+	path_type = _path_type
 
 func signal_clicked():
+	print("Type : ", path_type)
 	for space in spaces:
 		space._place_wagon()
