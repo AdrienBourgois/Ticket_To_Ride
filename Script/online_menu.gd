@@ -16,11 +16,9 @@ func _on_HostButton_pressed():
 	var newScene = load("res://Scene/server.scn").instance()
 	self.hide()
 	add_child(newScene)
-	print("HostButton pressed! Server Start...")
 	pass
 
 func _on_ConnectButton_pressed():
-	print("ConnectButton pressed! try to connect to the server at: "+ get_node("Connect/EnterIP").get_text()+" with the Nickname: "+ get_node("Host/EnterName").get_text())
 	var newScene = load("res://Scene/client.scn").instance()
 	self.hide()
 	newScene.ip = get_node("Connect/EnterIP").get_text()

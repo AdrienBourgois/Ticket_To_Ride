@@ -62,6 +62,9 @@ func create_deck():
 	create_road_card(40)
 
 func _ready():
+	get_node("Deck_Wagon").set_transform(get_node("/root/Game/Board/Deck_Wagon_Location").get_transform())
+	get_node("Deck_Road").set_transform(get_node("/root/Game/Board/Deck_Road_Location").get_transform())
+	
 	create_deck()
 	deck_road = mix_deck(deck_road)
 	deck_wagon = mix_deck(deck_wagon)
@@ -72,12 +75,20 @@ func _ready():
 	
 	for i in range(deck_wagon.size()):
 		var card = Card_scene.instance()
-		card.prepare_card(deck_wagon[i], i)
 		add_child(card)
+		card.prepare_card(deck_wagon[i], i)
+		deck_wagon[i] = card
 	for i in range(deck_road.size()):
 		var card = Card_scene.instance()
-		card.prepare_card(deck_road[i], i)
 		add_child(card)
+		card.prepare_card(deck_road[i], i)
+		deck_road[i] = card
+	
+	get_children()[111].flip_to(get_node("/root/Game/Board/Card_Location_1").get_translation())
+	get_children()[11].flip_to(get_node("/root/Game/Board/Card_Location_2").get_translation())
+	get_children()[50].flip_to(get_node("/root/Game/Board/Card_Location_3").get_translation())
+	get_children()[20].flip_to(get_node("/root/Game/Board/Card_Location_4").get_translation())
+	get_children()[54].flip_to(get_node("/root/Game/Board/Card_Location_5").get_translation())
 
 func mix_deck(deck):
 	var size = deck.size()
@@ -91,3 +102,8 @@ func mix_deck(deck):
 		deck.erase(deck[cur_card])
 	
 	return mixed_deck
+
+func get_card_wagon():
+	var card = deck_wagon[deck_wagon.size() - 1]
+	deck_wagon.erase(card)
+	return card
