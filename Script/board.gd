@@ -33,7 +33,7 @@ func add_city(City):
 	var New_city = CityScn.instance()
 	add_child(New_city)
 	New_city.translate(City["pos"])
-	New_city.get_node("City").Name = (City["name"])
+	New_city.Name = (City["name"])
 
 func _add_path(PathType):
 	var path = str2var(var2str(PathType))

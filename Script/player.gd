@@ -6,18 +6,24 @@ var Station
 var Score
 var Hands = preload("res://Scene/hands.scn").instance()
 var Player_color
-#signal station_signal(param)
+signal player_signal(city, color)
 
 func _ready():
 	Wagons = 40
 	Station = 3
 	Score = 0
-	Player_color = colors.blue
+	Player_color = colors.purple
 	add_child(Hands)
 	set_process(true)
-	get_node("/root/Game/Board/Spatial/City").connect("city_signal", self, "_I_place_a_station")
+	
+	for i in range(get_node("/root/Game/Board").get_child_count()):
+		if get_node("/root/Game/Board").get_child(i).get_type() == "StaticBody":
+			get_node("/root/Game/Board").get_child(i).connect("city_signal", self, "_I_place_a_station")
 
-
-func _I_place_a_station(param):
-	#emit_signal("station_signal", Player_color)
-	print("signal recu : ", param)
+func _I_place_a_station(city, occuped):
+	if Station > 0 && occuped == false:
+		emit_signal("player_signal", city, Player_color)
+		print("station is placed in ", city)
+		Station -= 1
+	else:
+		print("can't placed a station in ", city)
