@@ -14,12 +14,14 @@ func _ready():
 
 func _on_HostButton_pressed():
 	var newScene = load("res://Scene/server.scn").instance()
+	#newScene.get_node("Player").name = get_node("Host/EnterName").get_text()
 	self.hide()
 	add_child(newScene)
 	pass
 
 func _on_ConnectButton_pressed():
 	var newScene = load("res://Scene/client.scn").instance()
+	#newScene.get_node("Player").name = get_node("Host/EnterName").get_text()
 	self.hide()
 	newScene.ip = get_node("Connect/EnterIP").get_text()
 	add_child(newScene)
