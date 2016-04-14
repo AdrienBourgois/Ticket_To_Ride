@@ -36,6 +36,7 @@ func create_world():
 	_add_path({ "pos": Vector3(10, 0, -11), "Rotation": 345.0, "NbrSpace": 5, "Type": "normal", "color": colors.green})
 	_add_path({ "pos": Vector3(8, 0, -12), "Rotation": 55.0, "NbrSpace": 4, "Type": "normal", "color": colors.grey})
 	_add_path({ "pos": Vector3(12, 0, -13), "Rotation": 257.0, "NbrSpace": 4, "Type": "normal", "color": colors.pink})
+	_add_slots()
 
 func add_city(City):
 	City["id"] = Id
@@ -56,7 +57,12 @@ func _add_path(PathType):
 	New_path._add_space(path["NbrSpace"], path["color"])
 	add_child(New_path)
 	New_path.translate(path["pos"])
-	New_path.rotate_y(deg2rad(path["Rotation"])
-#func _add_slot(count):
-#	for i in range(count)
-#		
+	New_path.rotate_y(deg2rad(path["Rotation"]))
+
+func _add_slots():
+	var CardSlotScn = preload("res://Scene/card_location.scn")
+	for i in range(5):
+		var slot = CardSlotScn.instance()
+		slot.set_translation(Vector3(45,0,-10 + (i*5)))
+		Slots.append(slot)
+		add_child(slot)
