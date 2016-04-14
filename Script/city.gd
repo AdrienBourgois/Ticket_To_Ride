@@ -6,7 +6,6 @@ var TrainStationScn = preload("res://Scene/train_station.scn")
 signal city_signal(city, occuped)
 
 func _ready():
-	get_node("/root/Game/Player").connect("player_signal", self, "_a_Station_is_placed")
 	pass
 
 
