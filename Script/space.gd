@@ -5,7 +5,7 @@ var is_occupied
 var color = {}
 
 func _ready():
-	wagon_res = preload("res://Scene/wagon.scn")
+	wagon_res = preload("res://Scene/Object/wagon.scn")
 	is_occupied = false
 
 func _on_StaticBody_input_event( camera, event, click_pos, click_normal, shape_idx ):

@@ -7,9 +7,9 @@ var player = null
 
 func _init():
 	
-	deck = load("res://Scene/deck.scn").instance()
-	board = load("res://Scene/board.scn").instance()
-	player = load("res://Scene/player.scn").instance()
+	deck = load("res://Scene/Object/deck.scn").instance()
+	board = load("res://Scene/Object/board.scn").instance()
+	player = load("res://Scene/Object/player.scn").instance()
 	add_child(board)
 	add_child(deck)
 	add_child(player)

@@ -1,8 +1,8 @@
 
 extends Spatial
-var CityScn = preload("res://Scene/city.scn")
-var PathScn = preload("res://Scene/path.scn")
-var CardSlotScn = preload("res://Scene/card_location.scn")
+var CityScn = preload("res://Scene/Object/city.scn")
+var PathScn = preload("res://Scene/Object/path.scn")
+var CardSlotScn = preload("res://Scene/Object/card_location.scn")
 
 var Cities = []
 var Paths = []
@@ -56,7 +56,8 @@ func _add_path(PathType):
 	New_path._add_space(path["NbrSpace"], path["color"])
 	add_child(New_path)
 	New_path.translate(path["pos"])
-	New_path.rotate_y(deg2rad(path["Rotation"])
+	New_path.rotate_y(deg2rad(path["Rotation"]))
+	
 #func _add_slot(count):
 #	for i in range(count)
 #		

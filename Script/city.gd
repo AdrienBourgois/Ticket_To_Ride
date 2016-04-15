@@ -2,7 +2,7 @@ extends StaticBody
 
 var Is_build = false
 var Name
-var TrainStationScn = preload("res://Scene/train_station.scn")
+var TrainStationScn = preload("res://Scene/Object/train_station.scn")
 signal city_signal(city, occuped)
 
 func _ready():

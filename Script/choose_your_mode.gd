@@ -11,10 +11,10 @@ func _ready():
 	pass
 
 func _on_Online_pressed():
-	get_tree().change_scene("res://Scene/online_menu.scn")
+	get_tree().change_scene("res://Scene/General/online_menu.scn")
 	pass # replace with function body
 
 
 func _on_Back_pressed():
-	get_tree().change_scene("res://Scene/main_menu.scn")
+	get_tree().change_scene("res://Scene/General/main_menu.scn")
 	pass # replace with function body

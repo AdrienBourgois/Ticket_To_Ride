@@ -1,32 +1,9 @@
 
-extends VBoxContainer
-
-# member variables here, example:
-# var a=2
-# var b="textvar"
+extends Control
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
+	set_process_input(true)
+
+func _input(event):
 	pass
-
-
-
-
-func _on_Play_pressed():
-	get_tree().change_scene("res://Scene/choose_mode_menu.scn")
-	pass # replace with function body
-
-
-func _on_Plus_pressed():
-	pass # replace with function body
-
-
-func _on_Quit_pressed():
-	get_node("Quit/ConfirmationToQuit").show()
-	pass # replace with function body
-
-
-func _on_ConfirmationToQuit_confirmed():
-	get_tree().quit()
-	pass # replace with function body
+	#if event.

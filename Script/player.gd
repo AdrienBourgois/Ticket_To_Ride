@@ -4,7 +4,7 @@ extends Node
 var Wagons
 var Station
 var Score
-var Hands = preload("res://Scene/hands.scn").instance()
+var Hands = preload("res://Scene/Object/hands.scn").instance()
 var Player_color
 signal player_signal(city, color)
 
