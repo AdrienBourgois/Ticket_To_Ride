@@ -4,4 +4,8 @@ func _ready():
 	pass
 
 func _pressed():
-	get_tree().change_scene("res://Scene/General/main_menu.scn")
+	get_parent().get_node("Panel").show()
+	get_parent().get_node("Panel/ConfirmationQuit").show()
+
+func _on_ConfirmationQuit_hide():
+	get_parent().get_node("Panel").hide()
