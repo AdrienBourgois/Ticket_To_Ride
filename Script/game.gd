@@ -5,7 +5,6 @@ var board = null
 var deck = null
 var player = null
 var gui = null
-
 func _init():
 	
 	deck = load("res://Scene/Object/deck.scn").instance()
@@ -20,5 +19,3 @@ func _init():
 
 func _ready():
 	pass
-
-
