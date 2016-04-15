@@ -18,11 +18,6 @@ func create_world():
 	add_city({ "name": "London", "pos": Vector3(19, 0, 0) })
 	add_city({ "name": "Madrid", "pos": Vector3(23, 0, -15) })
 	add_city({ "name": "Rome", "pos": Vector3(5, 0, -9) })
-	"""add_city({ "name": "Budapest", "pos": Vector3(-1, 0, -5) })
-	add_city({ "name": "Sofia", "pos": Vector3(-4, 0, -12) })
-	add_city({ "name": "Vilnius", "pos": Vector3(-6, 0, 9) })
-	add_city({ "name": "Saint-Petersbourg", "pos": Vector3(-15, 0, 14) })
-	add_city({ "name": "Rostov", "pos": Vector3(-15, 0, -5) })"""
 	_add_path({ "pos": Vector3(20, 0, -14), "Rotation": 72, "NbrSpace": 5, "Type": "normal", "color": colors.green})
 	_add_path({ "pos": Vector3(23, 0, -11), "Rotation": 15, "NbrSpace": 4, "Type": "normal", "color": colors.blue})
 	_add_path({ "pos": Vector3(8, 0, -6), "Rotation": -60, "NbrSpace": 4, "Type": "tunnel", "color": colors.red})
@@ -31,11 +26,7 @@ func create_world():
 	_add_path({ "pos": Vector3(15, 0, 2), "Rotation": 65, "NbrSpace": 3, "Type": "normal", "color": colors.black})
 	_add_path({ "pos": Vector3(5, 0, -5), "Rotation": 0, "NbrSpace": 3, "Type": "double ferry", "color": colors.grey})
 	_add_path({ "pos": Vector3(3, 0, -5), "Rotation": 0, "NbrSpace": 3, "Type": "normal", "color": colors.green})
-	"""_add_path({ "pos": Vector3(0, 0, -1), "Rotation": 300.0, "NbrSpace": 5, "Type": "normal", "color": colors.orange})
-	_add_path({ "pos": Vector3(1, 0, -3), "Rotation": 300.0, "NbrSpace": 5, "Type": "normal", "color": colors.white})
-	_add_path({ "pos": Vector3(10, 0, -11), "Rotation": 345.0, "NbrSpace": 5, "Type": "normal", "color": colors.green})
-	_add_path({ "pos": Vector3(8, 0, -12), "Rotation": 55.0, "NbrSpace": 4, "Type": "normal", "color": colors.grey})
-	_add_path({ "pos": Vector3(12, 0, -13), "Rotation": 257.0, "NbrSpace": 4, "Type": "normal", "color": colors.pink})"""
+	_add_slots()
 
 func add_city(City):
 	City["id"] = Id
@@ -57,3 +48,11 @@ func _add_path(PathType):
 	add_child(New_path)
 	New_path.translate(path["pos"])
 	New_path.rotate_y(deg2rad(path["Rotation"]))
+
+func _add_slots():
+	var CardSlotScn = preload("res://Scene/card_location.scn")
+	for i in range(5):
+		var slot = CardSlotScn.instance()
+		slot.set_translation(Vector3(45,0,-10 + (i*5)))
+		Slots.append(slot)
+		add_child(slot)
