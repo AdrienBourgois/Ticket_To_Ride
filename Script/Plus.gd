@@ -2,4 +2,4 @@
 extends Button
 
 func _on_Plus_pressed():
-	pass # replace with function body
+	get_tree().change_scene("res://Scene/General/plus_menu.scn")
