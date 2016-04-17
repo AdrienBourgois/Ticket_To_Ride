@@ -11,15 +11,6 @@ var count = 0
 func _ready():
 	_create_textures_dictionnary()
 	set_normal_texture(textures_player_green)
-	set_process(true)
-
-func _process(delta):
-	if is_pressed() && count < 5:
-		count += 1
-		set_pressed_texture(player_image[count])
-		set_normal_texture(player_image[count])
-		if count == 4:
-			count = 0
 
 func add_texture(new_texture):
 	var texture = str2var(var2str(new_texture))
@@ -30,4 +21,12 @@ func _create_textures_dictionnary():
 	add_texture(textures_player_blue)
 	add_texture(textures_player_yellow)
 	add_texture(textures_player_red)
-	add_texture(textures_player_blue)
+	add_texture(textures_player_purple)
+
+func _on_Player_pressed():
+	if is_pressed():
+		if count == 5:
+			count = 0
+		print(count)
+		set_normal_texture(player_image[count])
+		count += 1
