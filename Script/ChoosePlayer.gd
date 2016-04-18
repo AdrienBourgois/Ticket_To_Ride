@@ -38,3 +38,7 @@ func _on_Player_pressed():
 			count = 0
 		set_normal_texture(player[count]["texture"])
 		player_information.player_color = player[count]["color"]
+
+func _on_ValidButton_pressed():
+	player_information.player_name = get_parent().get_node("LineEdit").get_text()
+	print(player_information.player_name)
