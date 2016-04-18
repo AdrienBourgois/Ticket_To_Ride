@@ -1,10 +1,10 @@
 
 extends TextureButton
-onready var textures_player_green = load("res://Assets/Textures/ChooseGameMode.png")
-onready var textures_player_blue = load("res://Assets/Textures/Credit.png")
-onready var textures_player_yellow = load("res://Assets/Textures/MainMenu.png")
-onready var textures_player_red = load("res://Assets/Textures/PlusMenu.png")
-onready var textures_player_purple = load("res://Assets/Textures/ButtonPlay.png")
+onready var textures_player_green = load("res://Assets/Textures/GreenPlayer.png")
+onready var textures_player_blue = load("res://Assets/Textures/BluePlayer.png")
+onready var textures_player_yellow = load("res://Assets/Textures/YellowPlayer.png")
+onready var textures_player_red = load("res://Assets/Textures/RedPlayer.png")
+onready var textures_player_purple = load("res://Assets/Textures/PurplePlayer.png")
 var player_image = []
 var count = 0
 
