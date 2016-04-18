@@ -1,17 +1,14 @@
 
 extends Node
 
-var Wagons
-var Station
+export var Wagons = 45
+export var Station = 3
 var Score
 var Hands = preload("res://Scene/Object/hands.scn").instance()
 var Player_color
 
 func _ready():
-	Wagons = 45
-	Station = 3
 	Score = 0
-	Player_color = colors.blue
 	add_child(Hands)
 
 func action(type, node):
@@ -27,12 +24,14 @@ func city_action(node):
 		if node.Is_build == false:
 			node.place_a_station(Player_color)
 			Station -= 1
+			Score -= 4
 
 func path_action(node):
-	if Wagons > 0:
+	if Wagons >= node.NbrSpace:
 		if node.Is_occupied == false:
 			node.place_a_path(Player_color)
 			Wagons -= node.NbrSpace
+			Score += node.NbrSpace
 
 func card_action(node):
 	pass
