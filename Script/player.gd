@@ -10,6 +10,7 @@ var Player_color
 func _ready():
 	Score = 0
 	add_child(Hands)
+	Player_color = player_information.player_color
 
 func action(type, node):
 	if type == "city":

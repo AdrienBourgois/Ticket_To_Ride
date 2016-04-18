@@ -1,5 +1,6 @@
 
 extends TextureButton
+
 onready var textures_player_green = load("res://Assets/Textures/GreenPlayer.png")
 onready var textures_player_blue = load("res://Assets/Textures/BluePlayer.png")
 onready var textures_player_yellow = load("res://Assets/Textures/YellowPlayer.png")
@@ -14,8 +15,10 @@ var player = []
 var count = 0
 
 func _ready():
+	print(get_parent().get_parent().get_parent().get_parent())
 	_create_players_dictionnary()
 	set_normal_texture(player[0]["texture"])
+	player_information.player_color = player[0]["color"]
 
 func add_player(new_player):
 	var _player = str2var(var2str(new_player))
@@ -34,3 +37,4 @@ func _on_Player_pressed():
 		if count == 5:
 			count = 0
 		set_normal_texture(player[count]["texture"])
+		player_information.player_color = player[count]["color"]

@@ -18,4 +18,5 @@ func _init():
 	add_child(gui)
 
 func _ready():
+
 	pass
