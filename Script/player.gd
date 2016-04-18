@@ -9,6 +9,9 @@ var Player_color
 
 func _ready():
 	Score = 0
+	get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
+	get_parent().get_node("GuiInGame").set_station_value(Station)
+	get_parent().get_node("GuiInGame").set_score_value(Score)
 	add_child(Hands)
 
 func action(type, node):
@@ -25,6 +28,8 @@ func city_action(node):
 			node.place_a_station(Player_color)
 			Station -= 1
 			Score -= 4
+			get_parent().get_node("GuiInGame").set_station_value(Station)
+			get_parent().get_node("GuiInGame").set_score_value(Score)
 
 func path_action(node):
 	if Wagons >= node.NbrSpace:
@@ -32,6 +37,8 @@ func path_action(node):
 			node.place_a_path(Player_color)
 			Wagons -= node.NbrSpace
 			Score += node.NbrSpace
+			get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
+			get_parent().get_node("GuiInGame").set_score_value(Score)
 
 func card_action(node):
 	pass
