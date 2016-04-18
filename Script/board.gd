@@ -18,7 +18,8 @@ func create_world():
 	add_city({ "name": "London", "pos": Vector3(19, 0, 0) })
 	add_city({ "name": "Madrid", "pos": Vector3(23, 0, -15) })
 	add_city({ "name": "Rome", "pos": Vector3(5, 0, -9) })
-	_add_path({ "pos": Vector3(20, 0, -14), "Rotation": 72, "NbrSpace": 5, "Type": "normal", "color": colors.green})
+	_add_path_auto({ "type": "normal", "city_A": "Madrid", "city_B": "Rome", "color": colors.black })
+	#_add_path({ "pos": Vector3(20, 0, -14), "Rotation": 72, "NbrSpace": 5, "Type": "normal", "color": colors.green})
 	_add_path({ "pos": Vector3(23, 0, -11), "Rotation": 15, "NbrSpace": 4, "Type": "normal", "color": colors.blue})
 	_add_path({ "pos": Vector3(8, 0, -6), "Rotation": -60, "NbrSpace": 4, "Type": "tunnel", "color": colors.red})
 	_add_path({ "pos": Vector3(20, 0, 3), "Rotation": 0, "NbrSpace": 4, "Type": "simple ferry", "color": colors.yellow})
@@ -36,6 +37,15 @@ func add_city(City):
 	add_child(New_city)
 	New_city.translate(City["pos"])
 	New_city.Name = (City["name"])
+
+func _add_path_auto(path):
+	path["id"] = Id
+	Paths.append(path)
+	Id += 1
+	var new_path = PathScn.instance()
+	add_child(new_path)
+	new_path.generate_the_path(path)
+
 
 func _add_path(PathType):
 	var path = str2var(var2str(PathType))
