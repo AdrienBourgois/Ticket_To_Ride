@@ -23,7 +23,6 @@ func place_a_station(color):
 
 func _on_City_input_event( camera, event, click_pos, click_normal, shape_idx ):
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
-		emit_signal("city_signal", Name, Is_build)
 		get_node("/root/Game/Player").action("city", self)
 
 

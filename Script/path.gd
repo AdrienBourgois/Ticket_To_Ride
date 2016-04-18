@@ -7,9 +7,28 @@ var color
 var path_type
 var Is_occupied = false
 var material
+var cities
+var start_point
+var end_point
+var city_A
+var city_B
 
 func _ready():
+	cities = get_node("/root/Game/Board").Cities
 	pass
+
+func generate_the_path(path):
+	for city in cities:
+		if city["name"] == path["city_A"]:
+			city_A = city
+			print(city_A)
+		elif city["name"] == path["city_B"]:
+			city_B = city
+			print(city_B)
+	print(city_A["pos"].distance_to(city_B["pos"]))
+	
+	
+	
 
 func place_a_path(player_color):
 	for space in spaces:
