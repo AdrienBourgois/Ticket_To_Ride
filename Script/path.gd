@@ -1,6 +1,6 @@
 extends Spatial
 
-var space_scene = preload("res://Scene/space.scn")
+var space_scene = preload("res://Scene/Object/space.scn")
 var spaces = []
 var NbrSpace
 var color

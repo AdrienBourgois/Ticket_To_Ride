@@ -4,7 +4,7 @@ extends Node
 var deck_wagon = []
 var deck_road = []
 var id = 1
-var Card_scene = preload("res://Scene/card.scn")
+var Card_scene = preload("res://Scene/Object/card.scn")
 var cities = null
 
 var wagon_pink   = { "type": "wagon", "sub-type": "color", "color-code": colors.pink,   "color": "pink" }

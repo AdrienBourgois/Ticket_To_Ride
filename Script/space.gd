@@ -7,7 +7,7 @@ var material
 
 
 func _ready():
-	wagon_res = preload("res://Scene/wagon.scn")
+	wagon_res = preload("res://Scene/Object/wagon.scn")
 	is_occupied = false
 	get_node("StaticBody").connect("mouse_enter", get_parent(), "_on_hover")
 	get_node("StaticBody").connect("mouse_exit", get_parent(), "_off_hover")
