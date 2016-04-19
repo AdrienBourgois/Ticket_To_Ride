@@ -1,11 +1,11 @@
 
 extends LineEdit
 
+signal Clicked()
+
 func _ready():
 	set_text("Enter IP Adress of the server...")
-	pass
 
 func _on_IP_input_event( ev ):
-	if get_text() == "Enter IP Adress of the server...":
+	if Input.is_mouse_button_pressed(1) && get_text() == "Enter IP Adress of the server...":
 		set_text("")
-	pass # replace with function body
