@@ -24,6 +24,9 @@ func _place_wagon(player_color):
 	is_occupied = true
 
 func _on_StaticBody_input_event( camera, event, click_pos, click_normal, shape_idx ):
+	if click_pos >= get_node("StaticBody/quad").get_global_transform().origin or click_pos <= get_node("StaticBody/quad").get_global_transform().origin:
+		get_parent().get_pos_paths()
+
 	if event.type == InputEvent.MOUSE_BUTTON and Input.is_mouse_button_pressed(BUTTON_LEFT) and is_occupied == false:
 		get_parent().signal_clicked()
 	elif event.type == InputEvent.MOUSE_BUTTON and Input.is_mouse_button_pressed(BUTTON_LEFT) and is_occupied == true:

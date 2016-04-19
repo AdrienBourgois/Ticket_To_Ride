@@ -42,7 +42,7 @@ func place_a_station(color):
 
 func _on_City_input_event( camera, event, click_pos, click_normal, shape_idx ):
 	if click_pos >= get_node("Quad").get_global_transform().origin or click_pos <= get_node("Quad").get_global_transform().origin:
-		print("yes")
+		get_node("../../GuiInGame").set_info_cities(Name)
 
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		get_node("/root/Game/Player").action("city", self)

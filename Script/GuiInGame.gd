@@ -55,3 +55,9 @@ func set_score_value(new_value): #(new_value, player)
 	get_node("PanelPlayer3/score/value").set_text(str(new_value))
 	#if player5
 	get_node("PanelPlayer4/score/value").set_text(str(new_value))
+
+func set_info_cities(name):
+	get_node("infoGame/infoCities/name").set_text(str(name))
+
+func set_info_paths(type):
+	get_node("infoGame/infoPaths/type").set_text(str(type))

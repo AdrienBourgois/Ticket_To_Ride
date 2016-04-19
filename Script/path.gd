@@ -39,5 +39,8 @@ func _off_hover():
 func _set_type_path(_path_type):
 	path_type = _path_type
 
-func signal_clicked():
+func get_pos_paths():
+	get_node("../../GuiInGame").set_info_paths(path_type)
+
+func signal_clicked(click_pos):
 	get_node("/root/Game/Player").action("path", self)
