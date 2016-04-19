@@ -24,16 +24,19 @@ func action(type, node):
 		path_action(node)
 
 func city_action(node):
+	var path_find = false
 	print(node.Name)
 	if Station > 0:
 		if node.Is_build == false:
 			for i in range(node.neighboring_path.size()):
-				if node.neighboring_path[i].owner_color == Player_color:
-					node.place_a_station(Player_color)
-					Station -= 1
-					Score -= 4
-					get_parent().get_node("GuiInGame").set_station_value(Station)
-					get_parent().get_node("GuiInGame").set_score_value(Score)
+				if path_find == false:
+					if node.neighboring_path[i].owner_color == Player_color:
+						node.place_a_station(Player_color)
+						Station -= 1
+						Score -= 4 #temporaire, doit rajouter 4 point par gare non poser en fin de partie 
+						get_parent().get_node("GuiInGame").set_station_value(Station)
+						get_parent().get_node("GuiInGame").set_score_value(Score)
+						path_find = true
 
 
 func path_action(node):
