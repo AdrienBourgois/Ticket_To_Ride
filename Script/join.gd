@@ -2,7 +2,8 @@
 extends Button
 
 func _on_Join_pressed():
-	get_tree().change_scene("res://Scene/Object/client.scn")
+	mode.client = true
+	get_tree().change_scene("res://Scene/General/game.scn")
 	player_information.ip = get_parent().get_node("IP").get_text()
 
 

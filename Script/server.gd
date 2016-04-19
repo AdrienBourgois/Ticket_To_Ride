@@ -1,15 +1,20 @@
 
-extends Node
+extends "res://Script/net_constants.gd"
 
 const port = 3560
 var debug # kind of own debug console 
+var entry
 
+onready var username = player_information.player_name
 var server # for holding your TCP_Server object
 var connection = [] # for holding multiple connection (StreamPeerTCP) objects
 var peerstream = [] # for holding multiple data transfer (PacketPeerStream) objects
+var player_name_dictionnary = {}
+var player_name = []
 
 func _ready():
-	debug = get_node("Debug")
+	debug = get_parent().get_child(4).get_node("PanelChat/Chat")
+	entry = get_parent().get_child(4).get_node("PanelChat/LineEdit")
 	server = TCP_Server.new()
 	if server.listen(port) == 0:
 		debug.add_text("Server started at port "+str(port)); debug.newline()
@@ -24,8 +29,13 @@ func _process( delta ):
 		peerstream.append( PacketPeerStream.new() ) # also add some data transfer object
 		var index = connection.find( client )
 		peerstream[ index ].set_stream_peer( client )
-		
 		debug.add_text( "Client has connected!" ); debug.newline()
+		for peer in peerstream:
+			print("name: ", peer.get_var())
+			player_name_dictionnary["name"] = peer.get_var()
+			print(player_name_dictionnary)
+			player_name.append(player_name_dictionnary)
+			print(player_name[0]["name"])
 	
 	for client in connection:
 		if !client.is_connected():
@@ -42,19 +52,18 @@ func _process( delta ):
 				SendData( data_received )
 		
 	if Input.is_key_pressed( KEY_RETURN ):
-		var data = get_node("LineEdit").get_text()
+		var data = entry.get_text()
 		if data != "":
 			data = data.strip_edges()
-			debug.add_text(player_information.player_name + " : " + data); debug.newline()
+			debug.add_text(username + " : " + data); debug.newline()
 			print("Hello")
-			SendDataWithName(player_information.player_name, data)
-			print(player_information.player_name)
-			get_node("LineEdit").set_text("")
+			SendDataWithName(username, data)
+			entry.set_text("")
 
-func SendDataWithName(username, data):
+func SendDataWithName(name, data):
 	if data != "":
 		for peer in peerstream:
-			peer.put_var(username + " : " + data)
+			peer.put_var(name + " : " + data)
 
 func SendData( data ):
 	if data != "":
