@@ -17,6 +17,4 @@ func _init():
 	add_child(player)
 	add_child(gui)
 
-func _ready():
 
-	pass

@@ -5,13 +5,32 @@ var Name
 var TrainStationScn = preload("res://Scene/Object/train_station.scn")
 var City_color = null
 var material = null
+var neighboring_path = []
+var Path_dictionary
+var Path_node
 
 func _ready():
 	material = FixedMaterial.new()
 	get_node("Quad").set_material_override(material)
 	get_node("Quad").get_material_override().set_flag(1, true)
-	get_node(".").connect("mouse_enter", self, "_on_hover")
-	get_node(".").connect("mouse_exit", self, "_off_hover")
+	self.connect("mouse_enter", self, "_on_hover")
+	self.connect("mouse_exit", self, "_off_hover")
+	Path_dictionary = get_node("/root/Game/Board").Paths
+	Path_node = get_node("/root/Game/Board").Paths_node
+
+func prepare_city(city):
+	self.translate(city["pos"])
+	Name = (city["name"])
+	var path_id
+	
+	for path in Path_dictionary:
+		if path["city_A"] == Name || path["city_B"] == Name:
+			path_id = path["id"]
+			for node in Path_node:
+				if node.id == path_id:
+					neighboring_path.append(node)
+	
+
 
 
 func place_a_station(color):
