@@ -12,7 +12,6 @@ func _ready():
 	get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
 	get_parent().get_node("GuiInGame").set_station_value(Station)
 	get_parent().get_node("GuiInGame").set_score_value(Score)
-	Hands.translate(Vector3(0.0,.0,40.0))
 	add_child(Hands)
 	Player_color = player_information.player_color
 

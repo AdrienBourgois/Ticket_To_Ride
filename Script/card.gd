@@ -37,16 +37,33 @@ func flip_to(target):
 	animated = true
 	
 	var body = get_node("StaticBody")
-	var tween_t = Tween.new()
+	var tween = Tween.new()
 	
-	tween_t.set_name("Tween")
-	add_child(tween_t)
+	tween.set_name("Tween")
+	add_child(tween)
 	
-	tween_t.interpolate_property(body, "transform/translation", body.get_translation(), target, 2, 6, 1,1)
-	tween_t.interpolate_property(body, "transform/rotation", Vector3(0,0,0), Vector3(-180,0,0), 2, 6, 2,1)
-	tween_t.start()
+	tween.interpolate_property(body, "transform/translation", body.get_translation(), target, 2, 6, 1,1)
+	tween.interpolate_property(body, "transform/rotation", Vector3(0,0,0), Vector3(-180,0,0), 2, 6, 2,1)
+	tween.start()
 	
-	tween_t.connect("tween_complete", self, "_on_tween_complete")
+	tween.connect("tween_complete", self, "_on_tween_complete")
+
+func go_to(target, rotation):
+	_off_hover()
+	animated = true
+	
+	var body = get_node("StaticBody")
+	var tween = Tween.new()
+	
+	tween.set_name("Tween")
+	add_child(tween)
+	
+	tween.interpolate_property(body, "transform/translation", body.get_translation(), target, 1, 8, 2)
+	tween.interpolate_property(body, "transform/rotation", body.get_rotation(), rotation, 1, 8, 2)
+	print("Top")
+	tween.start()
+	
+	tween.connect("tween_complete", self, "_on_tween_complete")
 
 func _on_tween_complete(object, key):
 	get_node("Tween").queue_free()
@@ -59,7 +76,7 @@ func _on_tween_complete(object, key):
 
 func _on_clicked(camera, event, click_pos, click_normal, shape_idx):
 	if (Input.is_mouse_button_pressed(BUTTON_LEFT) && location == "card_location" && !animated):
-		get_parent().return_card()
+		get_node("/root/Game/Player/Hand").add_card(get_parent().return_card())
 		get_node("StaticBody").disconnect("input_event", self, "_on_clicked")
 		get_node("StaticBody").disconnect("mouse_enter", self, "_on_hover")
 		get_node("StaticBody").disconnect("mouse_exit", self, "_off_hover")
