@@ -7,6 +7,12 @@ var color_node = null
 var location = ""
 var animated = false
 var signals_enable = false
+var texture = null
+
+func create_texture(color):
+	var path = "res://Assets/Textures/CarteWagon_" + color + ".png"
+	texture = ImageTexture.new()
+	texture.load(path)
 
 func prepare_card(_parameters, i):
 	parameters = str2var(var2str(_parameters))
@@ -22,9 +28,11 @@ func prepare_card(_parameters, i):
 		location = "deck_wagon"
 		body.set_translation(get_node("../Deck_Wagon").get_translation() + Vector3(0,0.02*i,0))
 		if (parameters["sub-type"] != "locomotive"):
-			quad.get_material_override().set_parameter(0, parameters["color-code"])
+			create_texture(parameters["color"])
+			#quad.get_material_override().set_parameter(0, parameters["color-code"])
 		elif (parameters["sub-type"] == "locomotive"):
-			quad.get_material_override().set_parameter(0, colors.cyan)
+			create_texture("locomotive")
+		quad.get_material_override().set_texture(0, texture)
 	
 	elif (parameters["type"] == "road"):
 		location = "deck_road"
