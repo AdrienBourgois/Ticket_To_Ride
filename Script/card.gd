@@ -68,7 +68,6 @@ func go_to(target, rotation):
 	
 	tween.interpolate_property(body, "transform/translation", body.get_translation(), target, 1, 8, 2)
 	tween.interpolate_property(body, "transform/rotation", body.get_rotation(), rotation, 1, 8, 2)
-	print("Top")
 	tween.start()
 	
 	tween.connect("tween_complete", self, "_on_tween_complete")
