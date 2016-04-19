@@ -2,6 +2,8 @@ extends Control
 
 func _ready():
 	set_player_name()
+	if (mode.server == true) || (mode.client == true):
+		get_node("PanelChat").set_opacity(1.0)
 	set_process_input(true)
 
 func _input(event):

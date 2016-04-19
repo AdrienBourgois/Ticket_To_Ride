@@ -1,108 +1,77 @@
+
 extends "res://Script/net_constants.gd"
 
-var server # for holding your TCP_Server object
-var connection = {}
-#var player = null
-var game = null
+const port = 3560
+var debug # kind of own debug console 
+var entry
 
-class client_data:
-	#var player = null
-	var game = null
-	var peer = PacketPeerStream.new()
-	
-# Why class? It's easier to add more variables / objects
-# for each client
-#	var ready = false
-#	var spawned
-#	var state = LOADING_MAP
-#	...
+onready var username = player_information.player_name
+var server # for holding your TCP_Server object
+var connection = [] # for holding multiple connection (StreamPeerTCP) objects
+var peerstream = [] # for holding multiple data transfer (PacketPeerStream) objects
+var player_name_dictionnary = {}
+var player_name = []
 
 func _ready():
+	debug = get_parent().get_child(4).get_node("PanelChat/Chat")
+	entry = get_parent().get_child(4).get_node("PanelChat/LineEdit")
 	server = TCP_Server.new()
-#	player = get_node("Player")
-	print("Wow...")
-	game = get_node("Game")
 	if server.listen(port) == 0:
-		print("Server started at port "+str(port))
+		debug.add_text("Server started at port "+str(port)); debug.newline()
 		set_process(true)
-#		player.MakePlayer()
 	else:
-		get_node("FailPort").set_text("Fail start server on port" + str(port))
-		get_node("FailPort").show()
+		debug.add_text( "Failed to start server on port "+str(port) ); debug.newline()
 
 func _process( delta ):
-	if Input.is_key_pressed( KEY_ESCAPE ): # press Esc to quit to menu
-		GoToMenu()
-		return
 	if server.is_connection_available(): # check if someone's trying to connect
 		var client = server.take_connection() # accept connection
-		connection[client] = client_data.new()
-		connection[client].peer.set_stream_peer( client )
-		print( "Client has connected!" )
-	
-	for client in connection: # looping through all connected clients
-		if !client.is_connected(): # maybe not connected anymore?
-#			connection[client].player.anim = "Quit"		
-#			BroadcastData()
-			connection.erase(client) # remove him from dictionary
-			continue # skip this run of loop / go to next element in loop
-		
-		if connection[client].peer.get_available_packet_count() > 0:
-			for i in range( connection[client].peer.get_available_packet_count() ):
-				var data = connection[client].peer.get_var()
-				if data[0] == PLAYER_CONNECT: # data sent by client when connected
-#					if connection[client].player: # if client already have character
-					continue # then ignore this data
-					print("Hey")
-#					var new_player = load("res://Player/player.scn").instance() # create instance of player
-					var new_game = load("res://Scene/game.scn").instance()
-#					new_player.name = data[1] # name sent by client
-#					connection[client].player = new_player # assign this character to client
-					connection[client].game = new_game
-#					add_child(new_player) # add character to scene
-					add_child(new_game)
-					BroadcastConnect(client) # tell all connected players that someone has joined
-					SendConnect(client) # send connected players to new player
-#				elif data[0] == PLAYER_DATA: # received data from clien
-#					connection[client].player.set_pos( Vector2(data[1],data[2]) )
-#					connection[client].player.anim = data[3]
-	
-	BroadcastData()
-
-func BroadcastData():
-	var data = [ PLAYER_DATA]#, [player.name, int(player.get_pos().x), int(player.get_pos().y), player.anim] ] # add yourself
-	for client in connection:
-		var char = connection[client].game
-		#data.append( [ char.name, int(char.get_pos().x), int(char.get_pos().y), char.anim ] ) # add all connected clients
+		connection.append( client ) # we need to save him somewhere, that's why we have our Array
+		peerstream.append( PacketPeerStream.new() ) # also add some data transfer object
+		var index = connection.find( client )
+		peerstream[ index ].set_stream_peer( client )
+		debug.add_text( "Client has connected!" ); debug.newline()
+		for peer in peerstream:
+			print("name: ", peer.get_var())
+			player_name_dictionnary["name"] = peer.get_var()
+			print(player_name_dictionnary)
+			player_name.append(player_name_dictionnary)
+			print(player_name[0]["name"])
 	
 	for client in connection:
-		connection[client].peer.put_var( data ) # send data
-
-func BroadcastConnect( client ):
-	var data = [ PLAYER_CONNECT]#, connection[client].player.name ]
-	for cl in connection:
-		if cl == client: # no need to send data to himself
-			continue # next one please
+		if !client.is_connected():
+			debug.add_text("Client disconnected "+str(client.get_status())); debug.newline()
+			var index = connection.find( client )
+			connection.remove( index )
+			peerstream.remove( index )
+	
+	for peer in peerstream:
+		if peer.get_available_packet_count() > 0:
+			for i in range( peer.get_available_packet_count() ):
+				var data_received = peer.get_var()
+				debug.add_text(data_received); debug.newline() # we don't use str() here since we're sure it'll be string
+				SendData( data_received )
 		
-		connection[cl].peer.put_var( data )
+	if Input.is_key_pressed( KEY_RETURN ):
+		var data = entry.get_text()
+		if data != "":
+			data = data.strip_edges()
+			debug.add_text(username + " : " + data); debug.newline()
+			print("Hello")
+			SendDataWithName(username, data)
+			entry.set_text("")
 
-func SendConnect( client ):
-	var data = [ PLAYER_CONNECT ]
-	#data.append( player.name ) # add self ( server )
-	for cl in connection:
-		if cl == client: 
-			continue
-		
-	#	data.append( connection[cl].player.name ) # add other clients names
-	connection[ client ].peer.put_var( data ) # send that data to connecting client
+func SendDataWithName(name, data):
+	if data != "":
+		for peer in peerstream:
+			peer.put_var(name + " : " + data)
 
-func GoToMenu():
+func SendData( data ):
+	if data != "":
+		for peer in peerstream:
+			peer.put_var(data)
+
+func _on_Button_Back_pressed():
 	if server:
 		server.stop()
-	get_parent().show() # show menu
-	self.queue_free() # remove yourself at idle frame
-
-func _on_FailPort_confirmed():
-	get_parent().show()
-	self.queue_free()
-	pass # replace with function body
+	get_tree().change_scene("res://Scene/General/main_menu.scn")
+	queue_free() # remove yourself at idle frame
