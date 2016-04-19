@@ -44,5 +44,8 @@ func _add_space(_NbrSpace, _color):
 func _set_type_path(_path_type):
 	path_type = _path_type
 
+func get_pos_paths():
+	get_node("../../GuiInGame").set_info_paths(path_type)
+
 func signal_clicked():
 	get_node("/root/Game/Player").action("path", self)

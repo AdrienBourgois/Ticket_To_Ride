@@ -1,10 +1,11 @@
 
-extends Node
+extends "res://Script/net_constants.gd"
 
 const port = 3560
 onready var ip = player_information.ip
 
 var debug # kind of own debug console 
+var entry
 
 var connection # your connection (StreamPeerTCP) object
 var peerstream # your data transfer (PacketPeerStream) object
@@ -12,7 +13,8 @@ var connected = false
 
 
 func _ready():
-	debug = get_node("Debug")
+	debug = get_parent().get_child(4).get_node("PanelChat/Chat")
+	entry = get_parent().get_child(4).get_node("PanelChat/LineEdit")
 	connection = StreamPeerTCP.new()
 	connection.connect( ip, port )
 	peerstream = PacketPeerStream.new()
@@ -21,6 +23,7 @@ func _ready():
 	# get_status() returns following (int 0-3) values:
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
+		SendName(player_information.player_name)
 		set_process(true) # start processing if connected
 		connected = true
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
@@ -46,13 +49,18 @@ func _process( delta ):
 		print(data_received)
 		
 	if Input.is_key_pressed(KEY_RETURN):
-		var data = get_node("LineEdit").get_text()
+		var data = entry.get_text()
 		if data != "":
 			data = data.strip_edges()
-			SendData(player_information.player_name, data)
-			get_node("LineEdit").set_text("")
+			SendChatData(player_information.player_name, data)
+			entry.set_text("")
 
-func SendData(username, data):
+func SendName(name):
+	if name != "":
+		peerstream.put_var(name)
+		print(peerstream.get_var())
+
+func SendChatData(username, data):
 	if data != "":
 		peerstream.put_var(username + " : " + data)
 
