@@ -23,7 +23,7 @@ func _ready():
 	# get_status() returns following (int 0-3) values:
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
-		SendName(player_information.player_name)
+		peerstream.put_var([PLAYER_CONNECT, player_information.player_name])
 		set_process(true) # start processing if connected
 		connected = true
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
@@ -36,6 +36,7 @@ func _process( delta ):
 	if !connected:
 		if connection.get_status() == connection.STATUS_CONNECTED:
 			debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
+			peerstream.put_var([PLAYER_CONNECT, player_information.player_name])
 			connected = true
 			return
 	
@@ -45,11 +46,9 @@ func _process( delta ):
 	
 	if peerstream.get_available_packet_count() > 0:
 		var data_received = peerstream.get_var()
-		debug.add_text(data_received); debug.newline()
-		print(data_received)
-	
-	
-	
+		if data_received[0] == PLAYER_DATA:
+			debug.add_text(data_received[1]); debug.newline()
+		
 	if Input.is_key_pressed(KEY_RETURN):
 		var data = entry.get_text()
 		if data != "":
@@ -59,9 +58,13 @@ func _process( delta ):
 
 func SendChatData(username, data):
 	if data != "":
-		peerstream.put_var(username + " : " + data)
+		peerstream.put_var([PLAYER_DATA, username + " : " + data])
+
+func SendData(data):
+	if data != "":
+		peerstream.put_var(data)
 	else:
-		peerstream.put_var(username)
+		peerstream.put_var(player_information.player_name)
 		peerstream.put_var(player_information.player_color)
 
 func _on_Button_Back_pressed():

@@ -11,6 +11,7 @@ var connection = [] # for holding multiple connection (StreamPeerTCP) objects
 var peerstream = [] # for holding multiple data transfer (PacketPeerStream) objects
 var player_name_dictionnary = {}
 var player_name = []
+var number_player = 0
 
 func _ready():
 	debug = get_parent().get_child(4).get_node("PanelChat/Chat")
@@ -30,12 +31,8 @@ func _process( delta ):
 		var index = connection.find( client )
 		peerstream[ index ].set_stream_peer( client )
 		debug.add_text( "Client has connected!" ); debug.newline()
-		for peer in peerstream:
-			print("name: ", peer.get_var())
-			player_name_dictionnary["name"] = peer.get_var()
-			print(player_name_dictionnary)
-			player_name.append(player_name_dictionnary)
-			print(player_name[0]["name"])
+		number_player += 1
+		print(number_player)
 	
 	for client in connection:
 		if !client.is_connected():
@@ -48,7 +45,10 @@ func _process( delta ):
 		if peer.get_available_packet_count() > 0:
 			for i in range( peer.get_available_packet_count() ):
 				var data_received = peer.get_var()
-				debug.add_text(data_received); debug.newline() # we don't use str() here since we're sure it'll be string
+				if data_received[0] == PLAYER_CONNECT:
+					player_name_dictionnary["name"] = data_received[1]
+				elif data_received[0] == PLAYER_DATA:
+					debug.add_text(data_received[1]); debug.newline() # we don't use str() here since we're sure it'll be string
 				SendData( data_received )
 		
 	if Input.is_key_pressed( KEY_RETURN ):
@@ -56,14 +56,13 @@ func _process( delta ):
 		if data != "":
 			data = data.strip_edges()
 			debug.add_text(username + " : " + data); debug.newline()
-			print("Hello")
 			SendDataWithName(username, data)
 			entry.set_text("")
 
 func SendDataWithName(name, data):
 	if data != "":
 		for peer in peerstream:
-			peer.put_var(name + " : " + data)
+			peer.put_var([PLAYER_DATA, name + " : " + data])
 
 func SendData( data ):
 	if data != "":

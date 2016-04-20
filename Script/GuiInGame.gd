@@ -14,11 +14,9 @@ func _input(event):
 func set_player_name():
 	var t = Theme.new()
 	t.set_color("font_color", "Label", player_information.player_color)
-	if player_information.player_name == null:
-		get_node("PanelPlayer/player").set_text("Player 1")
-	else:
-		get_node("PanelPlayer/player").set_text(player_information.player_name)
+	get_node("PanelPlayer/player").set_text(player_information.player_name)
 	get_node("PanelPlayer/player").set_theme(t)
+	
 
 func set_wagon_value(new_value): #(new_value, player)
 	#if player1
