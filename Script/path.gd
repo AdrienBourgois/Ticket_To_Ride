@@ -42,5 +42,5 @@ func _set_type_path(_path_type):
 func get_pos_paths():
 	get_node("../../GuiInGame").set_info_paths(path_type)
 
-func signal_clicked(click_pos):
+func signal_clicked():
 	get_node("/root/Game/Player").action("path", self)
