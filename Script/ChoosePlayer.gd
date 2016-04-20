@@ -53,7 +53,7 @@ func _on_TextureButton_pressed():
 		if count == 5:
 			count = 0
 		set_normal_texture(player[count]["texture"])
-		player_information.player_color = player[count]["color"]
+		player_information.player_2_color = player[count]["color"]
 
 
 func _on_TextureButton_2_pressed():
@@ -62,7 +62,7 @@ func _on_TextureButton_2_pressed():
 		if count == 5:
 			count = 0
 		set_normal_texture(player[count]["texture"])
-		player_information.player_color = player[count]["color"]
+		player_information.player_3_color = player[count]["color"]
 
 
 
@@ -72,7 +72,7 @@ func _on_TextureButton_3_pressed():
 		if count == 5:
 			count = 0
 		set_normal_texture(player[count]["texture"])
-		player_information.player_color = player[count]["color"]
+		player_information.player_4_color = player[count]["color"]
 
 
 func _on_TextureButton_4_pressed():
@@ -81,4 +81,4 @@ func _on_TextureButton_4_pressed():
 		if count == 5:
 			count = 0
 		set_normal_texture(player[count]["texture"])
-		player_information.player_color = player[count]["color"]
+		player_information.player_5_color = player[count]["color"]
