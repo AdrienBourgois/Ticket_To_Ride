@@ -46,3 +46,39 @@ func _on_Color_pressed():
 			count = 0
 		set_normal_texture(player[count]["texture"])
 		player_information.player_color = player[count]["color"]
+
+func _on_TextureButton_pressed():
+	if is_pressed():
+		count += 1
+		if count == 5:
+			count = 0
+		set_normal_texture(player[count]["texture"])
+		player_information.player_color = player[count]["color"]
+
+
+func _on_TextureButton_2_pressed():
+	if is_pressed():
+		count += 1
+		if count == 5:
+			count = 0
+		set_normal_texture(player[count]["texture"])
+		player_information.player_color = player[count]["color"]
+
+
+
+func _on_TextureButton_3_pressed():
+	if is_pressed():
+		count += 1
+		if count == 5:
+			count = 0
+		set_normal_texture(player[count]["texture"])
+		player_information.player_color = player[count]["color"]
+
+
+func _on_TextureButton_4_pressed():
+	if is_pressed():
+		count += 1
+		if count == 5:
+			count = 0
+		set_normal_texture(player[count]["texture"])
+		player_information.player_color = player[count]["color"]
