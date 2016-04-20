@@ -32,7 +32,6 @@ func _process( delta ):
 		peerstream[ index ].set_stream_peer( client )
 		debug.add_text( "Client has connected!" ); debug.newline()
 		number_player += 1
-		print(number_player)
 	
 	for client in connection:
 		if !client.is_connected():
@@ -46,7 +45,9 @@ func _process( delta ):
 			for i in range( peer.get_available_packet_count() ):
 				var data_received = peer.get_var()
 				if data_received[0] == PLAYER_CONNECT:
-					player_name_dictionnary["name"] = data_received[1]
+					player_information.player_name = data_received[1]
+					player_information.player_color = data_received[2]
+					get_parent().get_child(4).set_serverside_player_name()
 				elif data_received[0] == PLAYER_DATA:
 					debug.add_text(data_received[1]); debug.newline() # we don't use str() here since we're sure it'll be string
 				SendData( data_received )
@@ -74,3 +75,6 @@ func _on_Button_Back_pressed():
 		server.stop()
 	get_tree().change_scene("res://Scene/General/main_menu.scn")
 	queue_free() # remove yourself at idle frame
+
+func get_player_number():
+	return number_player

@@ -23,7 +23,7 @@ func _ready():
 	# get_status() returns following (int 0-3) values:
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
-		peerstream.put_var([PLAYER_CONNECT, player_information.player_name])
+		peerstream.put_var([PLAYER_CONNECT, player_information.player_name, player_information.player_color])
 		set_process(true) # start processing if connected
 		connected = true
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
