@@ -22,19 +22,24 @@ func place_a_path(player_color):
 func _add_space(_NbrSpace, _color):
 	NbrSpace = _NbrSpace
 	color = _color
-	material = FixedMaterial.new()
-	material.set_parameter(0, color)
 	for i in range(NbrSpace):
+		material = FixedMaterial.new()
+		material.set_parameter(0, color)
 		var space = space_scene.instance()
 		add_child(space)
-		space._prepare_space(material,i)
+		space._prepare_space(material,i, path_type)
 		spaces.append(space)
-
-func _on_hover():
-	material.set_parameter(0, colors.purple)
-
-func _off_hover():
-	material.set_parameter(0, color)
+	
+	if path_type == "ferry":
+		var img_text = ImageTexture.new()
+		img_text.load("res://Assets/Textures/Locomotive.png")
+		spaces[0].get_node("StaticBody/quad").get_material_override().set_texture(0, img_text)
+	
+	if path_type == "double_ferry":
+		var img_text = ImageTexture.new()
+		img_text.load("res://Assets/Textures/Locomotive.png")
+		spaces[0].get_node("StaticBody/quad").get_material_override().set_texture(0, img_text)
+		spaces[1].get_node("StaticBody/quad").get_material_override().set_texture(0, img_text)
 
 func _set_type_path(_path_type):
 	path_type = _path_type
