@@ -47,7 +47,9 @@ func _process( delta ):
 		var data_received = peerstream.get_var()
 		debug.add_text(data_received); debug.newline()
 		print(data_received)
-		
+	
+	
+	
 	if Input.is_key_pressed(KEY_RETURN):
 		var data = entry.get_text()
 		if data != "":
@@ -55,14 +57,12 @@ func _process( delta ):
 			SendChatData(player_information.player_name, data)
 			entry.set_text("")
 
-func SendName(name):
-	if name != "":
-		peerstream.put_var(name)
-		print(peerstream.get_var())
-
 func SendChatData(username, data):
 	if data != "":
 		peerstream.put_var(username + " : " + data)
+	else:
+		peerstream.put_var(username)
+		peerstream.put_var(player_information.player_color)
 
 func _on_Button_Back_pressed():
 	if connection:
