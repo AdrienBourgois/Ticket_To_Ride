@@ -9,7 +9,9 @@ func _ready():
 
 
 func _on_OptionButton_item_selected( ID ):
-	if ID == 1:
+	if ID == 0:
+		number_player.nb_player = 2
+	elif ID == 1:
 		number_player.nb_player = 3
 	elif ID == 2:
 		number_player.nb_player = 4
