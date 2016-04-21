@@ -14,9 +14,30 @@ func _input(event):
 
 func set_player_name():
 	var t = Theme.new()
-	t.set_color("font_color", "Label", player_information.player_color)
-	get_node("PanelPlayer/player").set_text(player_information.player_name)
-	get_node("PanelPlayer/player").set_theme(t)
+	var t2 = Theme.new()
+	var t3 = Theme.new()
+	var t4 = Theme.new()
+	var t5 = Theme.new()
+	if (number_player.nb_player <= 5) && (number_player.nb_player >= 2):
+		if number_player.nb_player >= 2:
+			t.set_color("font_color", "Label", player_information.player_color)
+			get_node("PanelPlayer/player").set_text(player_information.player_name)
+			get_node("PanelPlayer/player").set_theme(t)
+			t2.set_color("font_color", "Label", player_information.player_2_color)
+			get_node("PanelPlayer1/player").set_text(player_information.player_2_name)
+			get_node("PanelPlayer1/player").set_theme(t2)
+			if number_player.nb_player >= 3:
+				t3.set_color("font_color", "Label", player_information.player_3_color)
+				get_node("PanelPlayer2/player").set_text(player_information.player_3_name)
+				get_node("PanelPlayer2/player").set_theme(t3)
+				if number_player.nb_player >= 4:
+					t4.set_color("font_color", "Label", player_information.player_4_color)
+					get_node("PanelPlayer3/player").set_text(player_information.player_4_name)
+					get_node("PanelPlayer3/player").set_theme(t4)
+					if number_player.nb_player >= 5:
+						t5.set_color("font_color", "Label", player_information.player_5_color)
+						get_node("PanelPlayer4/player").set_text(player_information.player_5_name)
+						get_node("PanelPlayer4/player").set_theme(t5)
 
 func set_serverside_player_name():
 	var t = Theme.new()

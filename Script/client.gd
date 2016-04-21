@@ -36,7 +36,7 @@ func _process( delta ):
 	if !connected:
 		if connection.get_status() == connection.STATUS_CONNECTED:
 			debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
-			peerstream.put_var([PLAYER_CONNECT, player_information.player_name])
+			peerstream.put_var([PLAYER_CONNECT, player_information.player_name, player_information.player_color])
 			connected = true
 			return
 	
