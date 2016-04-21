@@ -50,4 +50,3 @@ func get_pos_paths():
 func signal_clicked():
 	for i in range(get_node("/root/Game").players.size()):
 		get_node("/root/Game").players[i].action("path", self)
-	#get_node("/root/Game/Player").action("path", self)

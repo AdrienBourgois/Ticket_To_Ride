@@ -34,10 +34,13 @@ func prepare_city(city):
 
 
 func place_a_station(color):
-		var TrainStation = TrainStationScn.instance()
-		add_child(TrainStation)
-		TrainStation.get_node("TrainStation").get_material_override().set_parameter(0, color)
-		Is_build = true
+	var station_mat = FixedMaterial.new()
+	station_mat.set_parameter(0, color)
+	var TrainStation = TrainStationScn.instance()
+	add_child(TrainStation)
+	get_node("Spatial/TrainStation").set_material_override(station_mat)
+	TrainStation.get_node("TrainStation").get_material_override().set_parameter(0, color)
+	Is_build = true
 
 
 func _on_City_input_event( camera, event, click_pos, click_normal, shape_idx ):
@@ -45,7 +48,8 @@ func _on_City_input_event( camera, event, click_pos, click_normal, shape_idx ):
 		get_node("../../GuiInGame").set_info_cities(Name)
 
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
-		get_node("/root/Game/Player").action("city", self)
+		for i in range(get_node("/root/Game").players.size()):
+			get_node("/root/Game").players[i].action("city", self)
 
 
 func _on_hover():
