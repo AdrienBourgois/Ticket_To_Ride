@@ -13,8 +13,8 @@ var connected = false
 
 
 func _ready():
-	debug = get_parent().get_child(4).get_node("PanelChat/Chat")
-	entry = get_parent().get_child(4).get_node("PanelChat/LineEdit")
+	debug = get_parent().get_child(3).get_node("PanelChat/Chat")
+	entry = get_parent().get_child(3).get_node("PanelChat/LineEdit")
 	connection = StreamPeerTCP.new()
 	connection.connect( ip, port )
 	peerstream = PacketPeerStream.new()
@@ -24,6 +24,7 @@ func _ready():
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
 		peerstream.put_var([PLAYER_CONNECT, player_information.player_name, player_information.player_color])
+		get_parent().get_child(3).set_player_name()
 		set_process(true) # start processing if connected
 		connected = true
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
