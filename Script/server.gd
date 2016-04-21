@@ -14,8 +14,8 @@ var player_name = []
 var number_player = 0
 
 func _ready():
-	debug = get_parent().get_child(4).get_node("PanelChat/Chat")
-	entry = get_parent().get_child(4).get_node("PanelChat/LineEdit")
+	debug = get_parent().get_child(3).get_node("PanelChat/Chat")
+	entry = get_parent().get_child(3).get_node("PanelChat/LineEdit")
 	server = TCP_Server.new()
 	if server.listen(port) == 0:
 		debug.add_text("Server started at port "+str(port)); debug.newline()
@@ -47,7 +47,7 @@ func _process( delta ):
 				if data_received[0] == PLAYER_CONNECT:
 					player_information.player_name = data_received[1]
 					player_information.player_color = data_received[2]
-					get_parent().get_child(4).set_serverside_player_name()
+					get_parent().get_child(3).set_serverside_player_name()
 				elif data_received[0] == PLAYER_DATA:
 					debug.add_text(data_received[1]); debug.newline() # we don't use str() here since we're sure it'll be string
 				SendData( data_received )

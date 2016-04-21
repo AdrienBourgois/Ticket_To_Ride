@@ -18,20 +18,20 @@ func set_change():
 				players[i].your_turn = false
 				if i+1 > number_player.nb_player - 1:
 					players[0].your_turn = true
+					get_child(2).set_player_turn()
 				else:
 					players[i+1].your_turn = true
+					get_child(2).set_player_turn()
 
 
 
 func _init():
-	"""
 	if mode.server == true:
 		server = load("res://Scene/Object/server.scn").instance()
 		add_child(server)
 	elif mode.client == true:
 		client = load("res://Scene/Object/client.scn").instance()
 		add_child(client)
-	"""
 	deck = load("res://Scene/Object/deck.scn").instance()
 	board = load("res://Scene/Object/board.scn").instance()
 	player = load("res://Scene/Object/player.scn")
@@ -40,12 +40,17 @@ func _init():
 	
 	add_child(board)
 	add_child(deck)
-	for i in range(number_player.nb_player):
-		var new_player = player.instance()
-		add_child(new_player)
-		players.append(new_player)
-	init_players()
 	add_child(gui)
+	
+	if (mode.server == true) || (mode.client == true):
+		add_child(player)
+	else:
+		for i in range(number_player.nb_player):
+			var new_player = player.instance()
+			add_child(new_player)
+			players.append(new_player)
+		init_players()
+	
 	
 
 
