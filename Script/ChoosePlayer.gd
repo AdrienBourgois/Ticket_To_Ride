@@ -19,6 +19,15 @@ func _ready():
 	_create_players_dictionnary()
 	set_normal_texture(player[0]["texture"])
 	player_information.player_color = player[0]["color"]
+	player_information.player_2_color = player[0]["color"]
+	player_information.player_3_color = player[0]["color"]
+	player_information.player_4_color = player[0]["color"]
+	player_information.player_5_color = player[0]["color"]
+	#block_play()
+
+#func block_play():
+	#if player_information.player_color == player_information.player_2_color:
+		#print(get_node("SoloButton"))
 
 func add_player(new_player):
 	var _player = str2var(var2str(new_player))
