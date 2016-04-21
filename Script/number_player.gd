@@ -1,6 +1,6 @@
 
 extends Node
 
-var nb_player
+var nb_player = 2
 
 
