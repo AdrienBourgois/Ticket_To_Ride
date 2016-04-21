@@ -25,8 +25,8 @@ func action(type, node):
 		path_action(node)
 
 func city_action(node):
+	print(node.Name)
 	if your_turn == true:
-		print(Player_color, " my turn")
 		var path_find = false
 		if Station > 0:
 			if node.Is_build == false:
