@@ -29,13 +29,10 @@ func city_action(node):
 		print(Player_color, " my turn")
 		var path_find = false
 		if Station > 0:
-			print("jai assez de gare")
 			if node.Is_build == false:
-				print("la ville est libre")
 				for i in range(node.neighboring_path.size()):
 					if path_find == false:
 						if node.neighboring_path[i].owner_color == Player_color:
-							print("jai trouver un chemin")
 							node.place_a_station(Player_color)
 							Station -= 1
 							Score -= 4 #temporaire, doit rajouter 4 point par gare non poser en fin de partie 

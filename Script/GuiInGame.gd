@@ -5,6 +5,8 @@ func _ready():
 	set_player_name()
 	if (mode.server == true) || (mode.client == true):
 		get_node("PanelChat").set_opacity(1.0)
+		if mode.server == true:
+			set_serverside_player_name()
 	set_process_input(true)
 
 func _input(event):
@@ -18,26 +20,27 @@ func set_player_name():
 	var t3 = Theme.new()
 	var t4 = Theme.new()
 	var t5 = Theme.new()
-	if (number_player.nb_player <= 5) && (number_player.nb_player >= 2):
-		if number_player.nb_player >= 2:
-			t.set_color("font_color", "Label", player_information.player_color)
-			get_node("PanelPlayer/player").set_text(player_information.player_name)
-			get_node("PanelPlayer/player").set_theme(t)
-			t2.set_color("font_color", "Label", player_information.player_2_color)
-			get_node("PanelPlayer1/player").set_text(player_information.player_2_name)
-			get_node("PanelPlayer1/player").set_theme(t2)
-			if number_player.nb_player >= 3:
-				t3.set_color("font_color", "Label", player_information.player_3_color)
-				get_node("PanelPlayer2/player").set_text(player_information.player_3_name)
-				get_node("PanelPlayer2/player").set_theme(t3)
-				if number_player.nb_player >= 4:
-					t4.set_color("font_color", "Label", player_information.player_4_color)
-					get_node("PanelPlayer3/player").set_text(player_information.player_4_name)
-					get_node("PanelPlayer3/player").set_theme(t4)
-					if number_player.nb_player >= 5:
-						t5.set_color("font_color", "Label", player_information.player_5_color)
-						get_node("PanelPlayer4/player").set_text(player_information.player_5_name)
-						get_node("PanelPlayer4/player").set_theme(t5)
+	if number_player.nb_player != null:
+		if (number_player.nb_player <= 5) && (number_player.nb_player >= 2):
+			if number_player.nb_player >= 2:
+				t.set_color("font_color", "Label", player_information.player_color)
+				get_node("PanelPlayer/player").set_text(player_information.player_name)
+				get_node("PanelPlayer/player").set_theme(t)
+				t2.set_color("font_color", "Label", player_information.player_2_color)
+				get_node("PanelPlayer1/player").set_text(player_information.player_2_name)
+				get_node("PanelPlayer1/player").set_theme(t2)
+				if number_player.nb_player >= 3:
+					t3.set_color("font_color", "Label", player_information.player_3_color)
+					get_node("PanelPlayer2/player").set_text(player_information.player_3_name)
+					get_node("PanelPlayer2/player").set_theme(t3)
+					if number_player.nb_player >= 4:
+						t4.set_color("font_color", "Label", player_information.player_4_color)
+						get_node("PanelPlayer3/player").set_text(player_information.player_4_name)
+						get_node("PanelPlayer3/player").set_theme(t4)
+						if number_player.nb_player >= 5:
+							t5.set_color("font_color", "Label", player_information.player_5_color)
+							get_node("PanelPlayer4/player").set_text(player_information.player_5_name)
+							get_node("PanelPlayer4/player").set_theme(t5)
 
 func set_serverside_player_name():
 	var t = Theme.new()
@@ -73,41 +76,86 @@ func set_gui_to_player():
 	if number_player.nb_player == 4:
 		get_node("PanelPlayer4").hide()
 
-func set_wagon_value(new_value): #(new_value, player)
-	#if player1
-	get_node("PanelPlayer/wagon/value").set_text(str(new_value))
-	#if player2
-	get_node("PanelPlayer1/wagon/value").set_text(str(new_value))
-	#if player3
-	get_node("PanelPlayer2/wagon/value").set_text(str(new_value))
-	#if player4
-	get_node("PanelPlayer3/wagon/value").set_text(str(new_value))
-	#if player5
-	get_node("PanelPlayer4/wagon/value").set_text(str(new_value))
+func set_wagon_value(new_value):
+	if get_parent().players[0].your_turn == true:
+		get_node("PanelPlayer/wagon/value").set_text(str(new_value))
+	elif get_parent().players[1].your_turn == true:
+		get_node("PanelPlayer1/wagon/value").set_text(str(new_value))
+	elif get_parent().players[2].your_turn == true:
+		get_node("PanelPlayer2/wagon/value").set_text(str(new_value))
+	elif get_parent().players[3].your_turn == true:
+		get_node("PanelPlayer3/wagon/value").set_text(str(new_value))
+	elif get_parent().players[4].your_turn == true:
+		get_node("PanelPlayer4/wagon/value").set_text(str(new_value))
 
-func set_station_value(new_value): #(new_value, player)
-	#if player1
-	get_node("PanelPlayer/train_station/value").set_text(str(new_value))
-	#if player2
-	get_node("PanelPlayer1/train_station/value").set_text(str(new_value))
-	#if player3
-	get_node("PanelPlayer2/train_station/value").set_text(str(new_value))
-	#if player4
-	get_node("PanelPlayer3/train_station/value").set_text(str(new_value))
-	#if player5
-	get_node("PanelPlayer4/train_station/value").set_text(str(new_value))
+func set_station_value(new_value):
+	if get_parent().players[0].your_turn == true:
+		get_node("PanelPlayer/train_station/value").set_text(str(new_value))
+	elif get_parent().players[1].your_turn == true:
+		get_node("PanelPlayer1/train_station/value").set_text(str(new_value))
+	elif get_parent().players[2].your_turn == true:
+		get_node("PanelPlayer2/train_station/value").set_text(str(new_value))
+	elif get_parent().players[3].your_turn == true:
+		get_node("PanelPlayer3/train_station/value").set_text(str(new_value))
+	elif get_parent().players[4].your_turn == true:
+		get_node("PanelPlayer4/train_station/value").set_text(str(new_value))
 
-func set_score_value(new_value): #(new_value, player)
-	#if player1
-	get_node("PanelPlayer/score/value").set_text(str(new_value))
-	#if player2
-	get_node("PanelPlayer1/score/value").set_text(str(new_value))
-	#if player3
-	get_node("PanelPlayer2/score/value").set_text(str(new_value))
-	#if player4
-	get_node("PanelPlayer3/score/value").set_text(str(new_value))
-	#if player5
-	get_node("PanelPlayer4/score/value").set_text(str(new_value))
+func hide_other():
+	if get_parent().players[0].your_turn == true:
+		get_node("PanelPlayer1/TextureFrame").hide()
+		get_node("PanelPlayer2/TextureFrame").hide()
+		get_node("PanelPlayer3/TextureFrame").hide()
+		get_node("PanelPlayer4/TextureFrame").hide()
+	elif get_parent().players[1].your_turn == true:
+		get_node("PanelPlayer/TextureFrame").hide()
+		get_node("PanelPlayer2/TextureFrame").hide()
+		get_node("PanelPlayer3/TextureFrame").hide()
+		get_node("PanelPlayer4/TextureFrame").hide()
+	elif get_parent().players[2].your_turn == true:
+		get_node("PanelPlayer/TextureFrame").hide()
+		get_node("PanelPlayer1/TextureFrame").hide()
+		get_node("PanelPlayer3/TextureFrame").hide()
+		get_node("PanelPlayer4/TextureFrame").hide()
+	elif get_parent().players[3].your_turn == true:
+		get_node("PanelPlayer/TextureFrame").hide()
+		get_node("PanelPlayer1/TextureFrame").hide()
+		get_node("PanelPlayer2/TextureFrame").hide()
+		get_node("PanelPlayer4/TextureFrame").hide()
+	elif get_parent().players[4].your_turn == true:
+		get_node("PanelPlayer/TextureFrame").hide()
+		get_node("PanelPlayer1/TextureFrame").hide()
+		get_node("PanelPlayer2/TextureFrame").hide()
+		get_node("PanelPlayer3/TextureFrame").hide()
+
+func set_player_turn():
+	if get_parent().players[0].your_turn == true:
+		hide_other()
+		get_node("PanelPlayer/TextureFrame").show()
+	elif get_parent().players[1].your_turn == true:
+		hide_other()
+		get_node("PanelPlayer1/TextureFrame").show()
+	elif get_parent().players[2].your_turn == true:
+		hide_other()
+		get_node("PanelPlayer2/TextureFrame").show()
+	elif get_parent().players[3].your_turn == true:
+		hide_other()
+		get_node("PanelPlayer3/TextureFrame").show()
+	elif get_parent().players[4].your_turn == true:
+		hide_other()
+		get_node("PanelPlayer4/TextureFrame").show()
+
+func set_score_value(new_value):
+	
+	if get_parent().players[0].your_turn == true:
+		get_node("PanelPlayer/score/value").set_text(str(new_value))
+	elif get_parent().players[1].your_turn == true:
+		get_node("PanelPlayer1/score/value").set_text(str(new_value))
+	elif get_parent().players[2].your_turn == true:
+		get_node("PanelPlayer2/score/value").set_text(str(new_value))
+	elif get_parent().players[3].your_turn == true:
+		get_node("PanelPlayer3/score/value").set_text(str(new_value))
+	elif get_parent().players[4].your_turn == true:
+		get_node("PanelPlayer4/score/value").set_text(str(new_value))
 
 func set_info_cities(name):
 	get_node("infoGame/infoCities/name").set_text(str(name))
