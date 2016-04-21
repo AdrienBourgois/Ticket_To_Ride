@@ -5,7 +5,8 @@ export var Wagons = 45
 export var Station = 3
 var Score
 var Hands = preload("res://Scene/Object/hands.scn").instance()
-var Player_color = colors.blue
+var Player_color
+var your_turn = false
 
 func _ready():
 	Score = 0
@@ -13,7 +14,7 @@ func _ready():
 	get_parent().get_node("GuiInGame").set_station_value(Station)
 	get_parent().get_node("GuiInGame").set_score_value(Score)
 	add_child(Hands)
-	Player_color = player_information.player_color
+
 
 func action(type, node):
 	if type == "city":
@@ -24,30 +25,35 @@ func action(type, node):
 		path_action(node)
 
 func city_action(node):
-	var path_find = false
-	print(node.Name)
-	if Station > 0:
-		if node.Is_build == false:
-			for i in range(node.neighboring_path.size()):
-				if path_find == false:
-					if node.neighboring_path[i].owner_color == Player_color:
-						node.place_a_station(Player_color)
-						Station -= 1
-						Score -= 4 #temporaire, doit rajouter 4 point par gare non poser en fin de partie 
-						get_parent().get_node("GuiInGame").set_station_value(Station)
-						get_parent().get_node("GuiInGame").set_score_value(Score)
-						path_find = true
+	if your_turn == true:
+		var path_find = false
+		print(node.Name)
+		print(self)
+		if Station > 0:
+			if node.Is_build == false:
+				for i in range(node.neighboring_path.size()):
+					if path_find == false:
+						if node.neighboring_path[i].owner_color == Player_color:
+							node.place_a_station(Player_color)
+							Station -= 1
+							Score -= 4 #temporaire, doit rajouter 4 point par gare non poser en fin de partie 
+							get_parent().get_node("GuiInGame").set_station_value(Station)
+							get_parent().get_node("GuiInGame").set_score_value(Score)
+							path_find = true
+							get_parent().set_change()
 
 
 func path_action(node):
-	print(node.id)
-	if Wagons >= node.NbrSpace:
-		if node.Is_occupied == false:
-			node.place_a_path(Player_color)
-			Wagons -= node.NbrSpace
-			Score += node.NbrSpace
-			get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
-			get_parent().get_node("GuiInGame").set_score_value(Score)
+	if your_turn == true:
+		print(node.id)
+		if Wagons >= node.NbrSpace:
+			if node.Is_occupied == false:
+				node.place_a_path(Player_color)
+				Wagons -= node.NbrSpace
+				Score += node.NbrSpace
+				get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
+				get_parent().get_node("GuiInGame").set_score_value(Score)
+				get_parent().set_change()
 
 func card_action(node):
 	pass

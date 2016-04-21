@@ -48,4 +48,6 @@ func get_pos_paths():
 	get_node("../../GuiInGame").set_info_paths(path_type)
 
 func signal_clicked():
-	get_node("/root/Game/Player").action("path", self)
+	for i in range(get_node("/root/Game").players.size()):
+		get_node("/root/Game").players[i].action("path", self)
+	#get_node("/root/Game/Player").action("path", self)
