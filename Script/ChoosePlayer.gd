@@ -27,17 +27,17 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
-	if (number_player.nb_player >= 2) && (number_player.nb_player <= 5):
-		if number_player.nb_player >= 2:
+	#if (number_player.nb_player >= 2) && (number_player.nb_player <= 5):
+		#if number_player.nb_player >= 2:
 			if player_information.player_color == player_information.player_2_color:
 				get_parent().get_parent().get_node("Solo/SoloButton").set_disabled(true)
 				get_parent().get_parent().get_node("Solo/SoloButton").set_disabled_texture(disable_texture_button_play)
-				if number_player.nb_player >=3:
-					if (player_information.player_color == player_information.player_3_color) || (player_information.player_2_color == player_information.player_3_color):
-						get_parent().get_parent().get_node("Solo/SoloButton").set_disabled(true)
-						get_parent().get_parent().get_node("Solo/SoloButton").set_disabled_texture(disable_texture_button_play)
-		else:
-			get_parent().get_parent().get_node("Solo/SoloButton").set_disabled(false)
+				#if number_player.nb_player >=3:
+					#if (player_information.player_color == player_information.player_3_color) || (player_information.player_2_color == player_information.player_3_color):
+					#	get_parent().get_parent().get_node("Solo/SoloButton").set_disabled(true)
+					#	get_parent().get_parent().get_node("Solo/SoloButton").set_disabled_texture(disable_texture_button_play)
+			else:
+				get_parent().get_parent().get_node("Solo/SoloButton").set_disabled(false)
 
 func add_player(new_player):
 	var _player = str2var(var2str(new_player))
