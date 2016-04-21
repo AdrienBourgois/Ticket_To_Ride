@@ -101,4 +101,15 @@ func get_card_wagon():
 	var card = deck_wagon[deck_wagon.size() - 1]
 	deck_wagon.erase(card)
 	remove_child(card)
+	var new_top_card = deck_wagon[deck_wagon.size() - 1]
+	new_top_card.location = "deck_wagon_top"
+	new_top_card.enable_connect()
 	return card
+
+func on_hover():
+	var card = deck_wagon[deck_wagon.size() - 1]
+	card._on_hover()
+
+func off_hover():
+	var card = deck_wagon[deck_wagon.size() - 1]
+	card._off_hover()

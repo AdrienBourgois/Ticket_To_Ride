@@ -38,7 +38,6 @@ func prepare_card(_parameters, i):
 		body.set_translation(get_node("../Deck_Wagon").get_translation() + Vector3(0,0.02*i,0))
 		if (parameters["sub-type"] != "locomotive"):
 			create_texture(parameters["color"])
-			#quad.get_material_override().set_parameter(0, parameters["color-code"])
 		elif (parameters["sub-type"] == "locomotive"):
 			create_texture("locomotive")
 		recto.get_material_override().set_texture(0, recto_texture)
@@ -85,22 +84,36 @@ func go_to(target, rotation):
 func _on_tween_complete(object, key):
 	get_node("Tween").queue_free()
 	animated = false
+	enable_connect()
+
+func _on_clicked(camera, event, click_pos, click_normal, shape_idx):
+	if (Input.is_mouse_button_pressed(BUTTON_LEFT) && location == "card_location" && !animated):
+		get_node("/root/Game/Player/Hand").add_card(get_parent().return_card())
+		disable_connect()
+	if (Input.is_mouse_button_pressed(BUTTON_LEFT) && location == "deck_wagon_top" && !animated):
+		get_node("/root/Game/Player/Hand").add_card(get_parent().get_card_wagon())
+		disable_connect()
+
+func _on_hover():
+	if (location == "deck_wagon_top" || location != "deck_wagon"):
+		recto_material.set_parameter(0, colors.purple)
+		verso_material.set_parameter(0, colors.purple)
+
+func _off_hover():
+	if (location == "deck_wagon_top" || location != "deck_wagon"):
+		recto_material.set_parameter(0, color_node)
+		verso_material.set_parameter(0, color_node)
+
+func enable_connect():
 	if (!signals_enable):
 		get_node("StaticBody").connect("input_event", self, "_on_clicked")
 		get_node("StaticBody").connect("mouse_enter", self, "_on_hover")
 		get_node("StaticBody").connect("mouse_exit", self, "_off_hover")
 		signals_enable = true
 
-func _on_clicked(camera, event, click_pos, click_normal, shape_idx):
-	if (Input.is_mouse_button_pressed(BUTTON_LEFT) && location == "card_location" && !animated):
-		get_node("/root/Game/Player/Hand").add_card(get_parent().return_card())
+func disable_connect():
+	if (signals_enable):
 		get_node("StaticBody").disconnect("input_event", self, "_on_clicked")
 		get_node("StaticBody").disconnect("mouse_enter", self, "_on_hover")
 		get_node("StaticBody").disconnect("mouse_exit", self, "_off_hover")
 		signals_enable = false
-
-func _on_hover():
-	recto_material.set_parameter(0, colors.purple)
-
-func _off_hover():
-	recto_material.set_parameter(0, color_node)
