@@ -17,7 +17,6 @@ func _prepare_space(path_material, i, path_type):
 	get_node("StaticBody/quad").set_material_override(material)
 	translate(Vector3(0.0, 0.0, i * 2.5))
 
-
 func _place_wagon(player_color):
 	var wagon_mat = FixedMaterial.new()
 	wagon_mat.set_parameter(0, player_color)
