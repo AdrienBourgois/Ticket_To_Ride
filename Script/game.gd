@@ -9,15 +9,29 @@ var server
 var client
 var players= []
 
+func set_change():
+	var change_turn = false
+	for i in range(players.size()):
+		if change_turn == false:
+			if (players[i].your_turn == true):
+				change_turn = true
+				players[i].your_turn = false
+				if i+1 > number_player.nb_player - 1:
+					players[0].your_turn = true
+				else:
+					players[i+1].your_turn = true
+
+
+
 func _init():
-	
+	"""
 	if mode.server == true:
 		server = load("res://Scene/Object/server.scn").instance()
 		add_child(server)
 	elif mode.client == true:
 		client = load("res://Scene/Object/client.scn").instance()
 		add_child(client)
-	
+	"""
 	deck = load("res://Scene/Object/deck.scn").instance()
 	board = load("res://Scene/Object/board.scn").instance()
 	player = load("res://Scene/Object/player.scn")
@@ -29,9 +43,27 @@ func _init():
 	for i in range(number_player.nb_player):
 		var new_player = player.instance()
 		add_child(new_player)
-		print("new_player")
 		players.append(new_player)
-	#add_child(player)
+	init_players()
 	add_child(gui)
+	
+
+
+
+func init_players():
+	players[0].your_turn = true
+	if number_player.nb_player >= 2 && number_player.nb_player <= 5:
+		if number_player.nb_player >= 2:
+			players[0].Player_color = player_information.player_color
+			players[1].Player_color = player_information.player_2_color
+			if number_player.nb_player >= 3:
+				players[2].Player_color = player_information.player_3_color
+				if number_player.nb_player >= 4:
+					players[3].Player_color = player_information.player_4_color
+					if number_player.nb_player >= 5:
+						players[4].Player_color = player_information.player_5_color
+	
+	
+	
 
 

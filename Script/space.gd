@@ -19,8 +19,11 @@ func _prepare_space(path_material, i, path_type):
 
 
 func _place_wagon(player_color):
+	var wagon_mat = FixedMaterial.new()
+	wagon_mat.set_parameter(0, player_color)
 	var wagon = wagon_res.instance()
 	add_child(wagon)
+	get_node("wagon/wagon").set_material_override(wagon_mat)
 	wagon.get_node("wagon").get_material_override().set_parameter(0, player_color)
 	is_occupied = true
 
