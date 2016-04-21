@@ -13,10 +13,6 @@ func _ready():
 	get_parent().get_node("TextureButton 3").hide()
 	get_parent().get_node("TextureButton 4").hide()
 
-func add_player():
-	print("nbPlayer", number_player.nb_player)
-
-
 
 func _on_OptionButton_item_selected( ID ):
 	print(ID)
