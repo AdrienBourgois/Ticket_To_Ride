@@ -50,14 +50,14 @@ func create_road_card(count):
 		id += 1
 
 func create_deck():
-	add_card(wagon_pink, 1)
-	add_card(wagon_white, 1)
-	add_card(wagon_blue, 1)
-	add_card(wagon_yellow, 1)
-	add_card(wagon_orange, 1)
-	add_card(wagon_black, 1)
-	add_card(wagon_red, 1)
-	add_card(wagon_green, 1)
+	add_card(wagon_pink, 12)
+	add_card(wagon_white, 12)
+	add_card(wagon_blue, 12)
+	add_card(wagon_yellow, 12)
+	add_card(wagon_orange, 12)
+	add_card(wagon_black, 12)
+	add_card(wagon_red, 12)
+	add_card(wagon_green, 12)
 	add_card(locomotive, 14)
 	create_road_card(40)
 	print(deck_wagon)
