@@ -145,7 +145,6 @@ func set_player_turn():
 		get_node("PanelPlayer4/TextureFrame").show()
 
 func set_score_value(new_value):
-	
 	if get_parent().players[0].your_turn == true:
 		get_node("PanelPlayer/score/value").set_text(str(new_value))
 	elif get_parent().players[1].your_turn == true:

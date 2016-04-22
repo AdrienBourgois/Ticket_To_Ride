@@ -5,8 +5,6 @@ var is_occupied
 var color 
 var material
 
-
-
 func _ready():
 	
 	wagon_res = preload("res://Scene/Object/wagon.scn")
