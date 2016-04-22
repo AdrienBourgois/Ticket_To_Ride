@@ -10,8 +10,21 @@ var your_turn = false
 
 func _ready():
 	Score = 0
-	get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
-	get_parent().get_node("GuiInGame").set_station_value(Station)
+	if number_player.nb_player >= 2:
+		get_parent().get_node("GuiInGame/PanelPlayer/wagon/value").set_text(str(Wagons))
+		get_parent().get_node("GuiInGame/PanelPlayer1/wagon/value").set_text(str(Wagons))
+		get_parent().get_node("GuiInGame/PanelPlayer/train_station/value").set_text(str(Station))
+		get_parent().get_node("GuiInGame/PanelPlayer1/train_station/value").set_text(str(Station))
+		if number_player.nb_player >= 3:
+			get_parent().get_node("GuiInGame/PanelPlayer2/wagon/value").set_text(str(Wagons))
+			get_parent().get_node("GuiInGame/PanelPlayer2/train_station/value").set_text(str(Station))
+			if number_player.nb_player >= 4:
+				get_parent().get_node("GuiInGame/PanelPlayer3/wagon/value").set_text(str(Wagons))
+				get_parent().get_node("GuiInGame/PanelPlayer3/train_station/value").set_text(str(Station))
+				if number_player.nb_player == 5:
+					get_parent().get_node("GuiInGame/PanelPlayer4/wagon/value").set_text(str(Wagons))
+					get_parent().get_node("GuiInGame/PanelPlayer4/train_station/value").set_text(str(Station))
+ 
 	get_parent().get_node("GuiInGame").set_score_value(Score)
 	add_child(Hands)
 
@@ -53,6 +66,8 @@ func path_action(node):
 				get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
 				get_parent().get_node("GuiInGame").set_score_value(Score)
 				get_parent().set_change()
+			if Wagons >= 0 && Wagons <= 2:
+				get_tree().change_scene("res://Scene/General/gui_game_over.scn")
 
 func card_action(node):
 	pass

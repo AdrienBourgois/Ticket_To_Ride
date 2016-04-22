@@ -36,12 +36,11 @@ func _init():
 	board = load("res://Scene/Object/board.scn").instance()
 	player = load("res://Scene/Object/player.scn")
 	gui = load("res://Scene/General/GuiInGame.scn").instance()
-	
-	
+
 	add_child(board)
 	add_child(deck)
 	add_child(gui)
-	
+
 	if (mode.server == true) || (mode.client == true):
 		add_child(player)
 	else:
@@ -50,10 +49,6 @@ func _init():
 			add_child(new_player)
 			players.append(new_player)
 		init_players()
-	
-	
-
-
 
 func init_players():
 	players[0].your_turn = true
@@ -67,8 +62,3 @@ func init_players():
 					players[3].Player_color = player_information.player_4_color
 					if number_player.nb_player >= 5:
 						players[4].Player_color = player_information.player_5_color
-	
-	
-	
-
-
