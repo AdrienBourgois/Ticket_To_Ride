@@ -147,14 +147,19 @@ func set_player_turn():
 func set_score_value(new_value):
 	if get_parent().players[0].your_turn == true:
 		get_node("PanelPlayer/score/value").set_text(str(new_value))
+		score_manager.score_player1 = new_value
 	elif get_parent().players[1].your_turn == true:
 		get_node("PanelPlayer1/score/value").set_text(str(new_value))
+		score_manager.score_player2 = new_value
 	elif get_parent().players[2].your_turn == true:
 		get_node("PanelPlayer2/score/value").set_text(str(new_value))
+		score_manager.score_player3 = new_value
 	elif get_parent().players[3].your_turn == true:
 		get_node("PanelPlayer3/score/value").set_text(str(new_value))
+		score_manager.score_player4 = new_value
 	elif get_parent().players[4].your_turn == true:
 		get_node("PanelPlayer4/score/value").set_text(str(new_value))
+		score_manager.score_player5 = new_value
 
 func set_info_cities(name):
 	get_node("infoGame/infoCities/name").set_text(str(name))
