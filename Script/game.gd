@@ -5,6 +5,7 @@ var board = null
 var deck = null
 var player = null
 var gui = null
+var discard_pile = null
 var server
 var client
 var players= []
@@ -36,10 +37,12 @@ func _init():
 	board = load("res://Scene/Object/board.scn").instance()
 	player = load("res://Scene/Object/player.scn")
 	gui = load("res://Scene/General/GuiInGame.scn").instance()
+	discard_pile = load("res://Scene/Object/discard_pile.scn").instance()
 
 	add_child(board)
 	add_child(deck)
 	add_child(gui)
+	add_child(discard_pile)
 
 	if (mode.server == true) || (mode.client == true):
 		add_child(player)

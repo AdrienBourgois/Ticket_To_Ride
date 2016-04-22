@@ -50,14 +50,14 @@ func create_road_card(count):
 		id += 1
 
 func create_deck():
-	add_card(wagon_pink, 12)
-	add_card(wagon_white, 12)
-	add_card(wagon_blue, 12)
-	add_card(wagon_yellow, 12)
-	add_card(wagon_orange, 12)
-	add_card(wagon_black, 12)
-	add_card(wagon_red, 12)
-	add_card(wagon_green, 12)
+	add_card(wagon_pink, 1)
+	add_card(wagon_white, 1)
+	add_card(wagon_blue, 1)
+	add_card(wagon_yellow, 1)
+	add_card(wagon_orange, 1)
+	add_card(wagon_black, 1)
+	add_card(wagon_red, 1)
+	add_card(wagon_green, 1)
 	add_card(locomotive, 14)
 	create_road_card(40)
 	print(deck_wagon)
@@ -100,13 +100,20 @@ func mix_deck(deck):
 	return mixed_deck
 
 func get_card_wagon():
-	var card = deck_wagon[deck_wagon.size() - 1]
-	deck_wagon.erase(card)
-	remove_child(card)
-	var new_top_card = deck_wagon[deck_wagon.size() - 1]
-	new_top_card.location = "deck_wagon_top"
-	new_top_card.enable_connect()
-	return card
+	if (!deck_wagon.size()):
+		take_from_discard_pile()
+		print("STOP ", deck_wagon.size())
+		return null
+	else:
+		var card = deck_wagon[deck_wagon.size() - 1]
+		deck_wagon.erase(card)
+		remove_child(card)
+		if (deck_wagon.size()):
+			var new_top_card = deck_wagon[deck_wagon.size() - 1]
+			new_top_card.location = "deck_wagon_top"
+			new_top_card.enable_connect()
+		print("Left: ", deck_wagon.size())
+		return card
 
 func on_hover():
 	var card = deck_wagon[deck_wagon.size() - 1]
@@ -115,3 +122,15 @@ func on_hover():
 func off_hover():
 	var card = deck_wagon[deck_wagon.size() - 1]
 	card._off_hover()
+
+func take_from_discard_pile():
+	var discard_pile = get_node("/root/Game/Discard_pile").get_cards()
+	var slots = get_node("/root/Game/Board").Slots
+	if (!discard_pile.size()):
+		for slot in slots:
+			slot.claim = false
+		print("passe")
+	else:
+		for slot in slots:
+			slot.claim = true
+		deck_wagon = discard_pile

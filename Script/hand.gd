@@ -53,5 +53,7 @@ func remove_card(color, count):
 	while(count):
 		if ((color == "locomotive" && wagon_cards[cur_card].parameters["sub-type"] == "locomotive") || (wagon_cards[cur_card].parameters["color"] == color)):
 			count -= 1
-			wagon_cards[cur_card].queue_free()
+			remove_child(wagon_cards[cur_card])
+			get_node("/root/Game/Discard_pile").add_card(cur_card)
+			wagon_cards.remove(cur_card)
 		cur_card += 1
