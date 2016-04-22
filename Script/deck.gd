@@ -60,6 +60,8 @@ func create_deck():
 	add_card(wagon_green, 12)
 	add_card(locomotive, 14)
 	create_road_card(40)
+	print(deck_wagon)
+	print(deck_wagon.size())
 
 func _ready():
 	get_node("Deck_Wagon").set_transform(get_node("/root/Game/Board/Deck_Wagon_Location").get_transform())
