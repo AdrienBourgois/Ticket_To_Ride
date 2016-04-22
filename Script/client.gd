@@ -10,6 +10,7 @@ var entry
 var connection # your connection (StreamPeerTCP) object
 var peerstream # your data transfer (PacketPeerStream) object
 var connected = false
+var timeout = 5
 
 
 func _ready():
@@ -24,25 +25,35 @@ func _ready():
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
 		peerstream.put_var([PLAYER_CONNECT, player_information.player_name, player_information.player_color])
-		get_parent().get_child(3).set_player_name()
+		get_parent().get_child(3).set_clientside_player_name()
 		set_process(true) # start processing if connected
 		connected = true
 	elif connection.get_status() == StreamPeerTCP.STATUS_CONNECTING:
 		debug.add_text( "Trying to connect "+ip+" :"+str(port) ); debug.newline()
+		get_node("TimeOut").show()
 		set_process(true) # or if trying to connect
 	elif connection.get_status() == connection.STATUS_NONE or connection.get_status() == StreamPeerTCP.STATUS_ERROR:
-		debug.add_text( "Couldn't connect to "+ip+" :"+str(port) ); debug.newline()
+		get_node("FailConnect").set_text("ERROR: Bad Adress")
+		get_node("FailConnect").show()
 
 func _process( delta ):
 	if !connected:
 		if connection.get_status() == connection.STATUS_CONNECTED:
 			debug.add_text( "Connected to "+ip+" :"+str(port) ); debug.newline()
 			peerstream.put_var([PLAYER_CONNECT, player_information.player_name, player_information.player_color])
+			get_node("TimeOut").hide()
 			connected = true
 			return
-	
+		if timeout > 0:
+			timeout -= delta
+			get_node("TimeOut").set_text( "Attempt to Connect: "+str(ceil(timeout)) )
+		else:
+			get_node("FailConnect").set_text("ERROR: Server Time Out!")
+			get_node("FailConnect").show()
+
 	if connection.get_status() == connection.STATUS_NONE or connection.get_status() == connection.STATUS_ERROR:
-		debug.add_text( "Server disconnected? " )
+		get_node("FailConnect").set_text("ERROR: Server Disconnected!")
+		get_node("FailConnect").show()
 		set_process(false)
 	
 	if peerstream.get_available_packet_count() > 0:
@@ -68,8 +79,11 @@ func SendData(data):
 		peerstream.put_var(player_information.player_name)
 		peerstream.put_var(player_information.player_color)
 
-func _on_Button_Back_pressed():
+func back_to_menu():
 	if connection:
 		connection.disconnect()
 	get_tree().change_scene("res://Scene/General/main_menu.scn")
 	queue_free() # remove yourself at idle frame
+
+func _on_FailConnect_confirmed():
+	back_to_menu()

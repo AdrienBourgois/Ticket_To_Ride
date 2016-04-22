@@ -1,18 +1,28 @@
 extends Control
 
 func _ready():
-	set_gui_to_player()
-	set_player_name()
+
 	if (mode.server == true) || (mode.client == true):
 		get_node("PanelChat").set_opacity(1.0)
 		if mode.server == true:
+			set_color_serverside()
 			set_serverside_player_name()
+		else:
+			set_clientside_player_name()
+	else:
+		get_node("PanelChat").set_opacity(0.0)
+		set_gui_to_player()
+		set_player_name()
 	set_process_input(true)
 
 func _input(event):
 	if Input.is_key_pressed(KEY_ESCAPE):
 		print(get_node("pauseMenu").get_children())
 		get_node("pauseMenu").show()
+
+func set_color_serverside():
+	var t = Theme.new()
+	t.set_color("font_color", "Label", player_information.player_color)
 
 func set_player_name():
 	var t = Theme.new()
@@ -41,6 +51,12 @@ func set_player_name():
 							t5.set_color("font_color", "Label", player_information.player_5_color)
 							get_node("PanelPlayer4/player").set_text(player_information.player_5_name)
 							get_node("PanelPlayer4/player").set_theme(t5)
+
+func set_clientside_player_name():
+	var t = Theme.new()
+	t.set_color("font_color", "Label", player_information.player_color)
+	get_node("PanelPlayer/player").set_text(player_information.player_name)
+	get_node("PanelPlayer/player").set_theme(t)
 
 func set_serverside_player_name():
 	var t = Theme.new()

@@ -14,6 +14,7 @@ var player_name = []
 var number_player = 0
 
 func _ready():
+	print(get_node("FailPort"))
 	debug = get_parent().get_child(3).get_node("PanelChat/Chat")
 	entry = get_parent().get_child(3).get_node("PanelChat/LineEdit")
 	server = TCP_Server.new()
@@ -21,9 +22,12 @@ func _ready():
 		debug.add_text("Server started at port "+str(port)); debug.newline()
 		set_process(true)
 	else:
-		debug.add_text( "Failed to start server on port "+str(port) ); debug.newline()
+		get_node("FailPort").set_text("Fail to Start on the port: " + str(port))
+		get_node("FailPort").show()
 
 func _process( delta ):
+	if Input.is_key_pressed(KEY_ESCAPE):
+		back_to_menu()
 	if server.is_connection_available(): # check if someone's trying to connect
 		var client = server.take_connection() # accept connection
 		connection.append( client ) # we need to save him somewhere, that's why we have our Array
@@ -70,7 +74,7 @@ func SendData( data ):
 		for peer in peerstream:
 			peer.put_var(data)
 
-func _on_Button_Back_pressed():
+func back_to_menu():
 	if server:
 		server.stop()
 	get_tree().change_scene("res://Scene/General/main_menu.scn")
@@ -78,3 +82,6 @@ func _on_Button_Back_pressed():
 
 func get_player_number():
 	return number_player
+
+func _on_FailPort_confirmed():
+	back_to_menu()
