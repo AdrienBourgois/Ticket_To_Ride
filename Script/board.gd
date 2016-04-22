@@ -181,7 +181,7 @@ func _add_path(path):
 	New_path.id = Id
 	Id += 1
 	New_path._set_type_path(path["Type"])
-	New_path._add_space(path["NbrSpace"], path["color"])
+	New_path._add_space(path["NbrSpace"], path["color"], path["color_name"])
 	add_child(New_path)
 	Paths_node.append(New_path)
 	New_path.translate(path["pos"])

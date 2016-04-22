@@ -38,8 +38,8 @@ func action(type, node):
 		path_action(node)
 
 func city_action(node):
-	print(node.Name)
 	if your_turn == true:
+		print(node.Name)
 		var path_find = false
 		if Station > 0:
 			if node.Is_build == false:
@@ -57,17 +57,18 @@ func city_action(node):
 
 func path_action(node):
 	if your_turn == true:
-		print(node.id)
-		if Wagons >= node.NbrSpace:
-			if node.Is_occupied == false:
-				node.place_a_path(Player_color)
-				Wagons -= node.NbrSpace
-				Score += node.NbrSpace
-				get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
-				get_parent().get_node("GuiInGame").set_score_value(Score)
-				get_parent().set_change()
-			if Wagons >= 0 && Wagons <= 2:
-				get_tree().change_scene("res://Scene/General/gui_game_over.scn")
+		if Hands.request_card(node.color_str, node.NbrSpace) == true:
+			if Wagons >= node.NbrSpace:
+				if node.Is_occupied == false:
+					node.place_a_path(Player_color)
+					Wagons -= node.NbrSpace
+					Score += node.NbrSpace
+					Hands.remove_card(node.color_str, node.NbrSpace)
+					get_parent().get_node("GuiInGame").set_wagon_value(Wagons)
+					get_parent().get_node("GuiInGame").set_score_value(Score)
+					get_parent().set_change()
+				if Wagons >= 0 && Wagons <= 2:
+					get_tree().change_scene("res://Scene/General/gui_game_over.scn")
 
 func card_action(node):
 	pass
