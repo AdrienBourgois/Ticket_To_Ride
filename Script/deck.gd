@@ -102,7 +102,6 @@ func mix_deck(deck):
 func get_card_wagon():
 	if (!deck_wagon.size()):
 		take_from_discard_pile()
-		print("STOP ", deck_wagon.size())
 		return null
 	else:
 		var card = deck_wagon[deck_wagon.size() - 1]
@@ -112,7 +111,6 @@ func get_card_wagon():
 			var new_top_card = deck_wagon[deck_wagon.size() - 1]
 			new_top_card.location = "deck_wagon_top"
 			new_top_card.enable_connect()
-		print("Left: ", deck_wagon.size())
 		return card
 
 func on_hover():
@@ -129,7 +127,6 @@ func take_from_discard_pile():
 	if (!discard_pile.size()):
 		for slot in slots:
 			slot.claim = false
-		print("passe")
 	else:
 		for slot in slots:
 			slot.claim = true
