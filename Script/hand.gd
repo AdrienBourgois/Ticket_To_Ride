@@ -33,6 +33,9 @@ func add_card(card):
 			get_node("Plate/" + color).set_pos(Vector2(self.get_translation().x + 370 , 580))
 			get_node("Plate/" + color).set_text(str(count_card[color]))
 			card.go_to(get_translation() + translate[color], get_rotation() + Vector3(180,90,0))
-			get_node("/root/Game").set_change()
-			cards_taken_on_turn = 0
-
+			if (card.location == "card_location"):
+				get_node("/root/Game").set_change()
+				cards_taken_on_turn = 0
+	
+	card.location = "hand"
+	card.disable_connect()
