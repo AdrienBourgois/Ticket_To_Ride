@@ -4,6 +4,7 @@ var space_scene = preload("res://Scene/Object/space.scn")
 var spaces = []
 var NbrSpace
 var color
+var color_str
 var path_type
 var Is_occupied = false
 var material
@@ -19,9 +20,10 @@ func place_a_path(player_color):
 		owner_color = player_color
 		Is_occupied = true
 
-func _add_space(_NbrSpace, _color):
+func _add_space(_NbrSpace, _color, _color_str):
 	NbrSpace = _NbrSpace
 	color = _color
+	color_str = _color_str
 	for i in range(NbrSpace):
 		material = FixedMaterial.new()
 		material.set_parameter(0, color)

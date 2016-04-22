@@ -1,5 +1,5 @@
 
-extends Node
+extends Spatial
 
 var wagon_cards = []
 var road_cards = []
@@ -23,6 +23,14 @@ func add_card(card):
 			var color = card.parameters["color"]
 			count_card[color] = count_card[color] + 1
 			wagon_cards.append(card)
+			get_node("Plate/" + color).set_anchor(MARGIN_LEFT, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_anchor(MARGIN_BOTTOM, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_anchor(MARGIN_RIGHT, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_anchor(MARGIN_TOP, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_margin(MARGIN_LEFT, 0)
+			get_node("Plate/" + color).set_margin(MARGIN_BOTTOM, 0)
+			get_node("Plate/" + color).set_margin(MARGIN_RIGHT, 0)
+			get_node("Plate/" + color).set_margin(MARGIN_TOP, 0)
 			get_node("Plate/" + color).set_pos(Vector2(self.get_translation().x + (510 + translate[color].x * 7) , 580))
 			get_node("Plate/" + color).set_text(str(count_card[color]))
 			card.go_to(get_translation() + translate[color], get_rotation() + Vector3(180,90,0))
@@ -39,3 +47,27 @@ func add_card(card):
 	
 	card.location = "hand"
 	card.disable_connect()
+
+func request_card(color, count):
+	if (count_card[color] >= count):
+		return true
+	else:
+		return false
+
+func remove_card(color, count):
+	count_card[color] -= count
+	
+	var cur_card = 0
+	while(count):
+		if (color == "locomotive"):
+			if (wagon_cards[cur_card].parameters["sub-type"] == "locomotive"):
+				count -= 1
+				remove_child(wagon_cards[cur_card])
+				get_node("/root/Game/Discard_pile").add_card(wagon_cards[cur_card])
+				wagon_cards.remove(cur_card)
+		elif (wagon_cards[cur_card].parameters["color"] == color):
+			count -= 1
+			remove_child(wagon_cards[cur_card])
+			get_node("/root/Game/Discard_pile").add_card(wagon_cards[cur_card])
+			wagon_cards.remove(cur_card)
+		cur_card += 1

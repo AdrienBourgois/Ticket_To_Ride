@@ -100,13 +100,18 @@ func mix_deck(deck):
 	return mixed_deck
 
 func get_card_wagon():
-	var card = deck_wagon[deck_wagon.size() - 1]
-	deck_wagon.erase(card)
-	remove_child(card)
-	var new_top_card = deck_wagon[deck_wagon.size() - 1]
-	new_top_card.location = "deck_wagon_top"
-	new_top_card.enable_connect()
-	return card
+	if (!deck_wagon.size()):
+		take_from_discard_pile()
+		return null
+	else:
+		var card = deck_wagon[deck_wagon.size() - 1]
+		deck_wagon.erase(card)
+		remove_child(card)
+		if (deck_wagon.size()):
+			var new_top_card = deck_wagon[deck_wagon.size() - 1]
+			new_top_card.location = "deck_wagon_top"
+			new_top_card.enable_connect()
+		return card
 
 func on_hover():
 	var card = deck_wagon[deck_wagon.size() - 1]
@@ -115,3 +120,14 @@ func on_hover():
 func off_hover():
 	var card = deck_wagon[deck_wagon.size() - 1]
 	card._off_hover()
+
+func take_from_discard_pile():
+	var discard_pile = get_node("/root/Game/Discard_pile").get_cards()
+	var slots = get_node("/root/Game/Board").Slots
+	if (!discard_pile.size()):
+		for slot in slots:
+			slot.claim = false
+	else:
+		for slot in slots:
+			slot.claim = true
+		deck_wagon = discard_pile
