@@ -88,10 +88,10 @@ func _on_tween_complete(object, key):
 
 func _on_clicked(camera, event, click_pos, click_normal, shape_idx):
 	if (Input.is_mouse_button_pressed(BUTTON_LEFT) && location == "card_location" && !animated):
-		get_node("/root/Game/Player/Hand").add_card(get_parent().return_card())
+		get_node("/root/Game").cur_player.Hands.add_card(get_parent().return_card())
 		disable_connect()
 	if (Input.is_mouse_button_pressed(BUTTON_LEFT) && location == "deck_wagon_top" && !animated):
-		get_node("/root/Game/Player/Hand").add_card(get_parent().get_card_wagon())
+		get_node("/root/Game").cur_player.Hands.add_card(get_parent().get_card_wagon())
 		disable_connect()
 
 func _on_hover():

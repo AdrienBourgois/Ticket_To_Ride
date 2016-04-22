@@ -9,8 +9,11 @@ var discard_pile = null
 var server
 var client
 var players= []
+var cur_player = null
 
 func set_change():
+	cur_player.Hands.hide_hand()
+	
 	var change_turn = false
 	for i in range(players.size()):
 		if change_turn == false:
@@ -23,6 +26,11 @@ func set_change():
 				else:
 					players[i+1].your_turn = true
 					get_child(2).set_player_turn()
+	
+	for player in players:
+		if (player.your_turn == true):
+			cur_player = player
+			cur_player.Hands.show_hand()
 
 
 
@@ -55,6 +63,7 @@ func _init():
 
 func init_players():
 	players[0].your_turn = true
+	cur_player = players[0]
 	if number_player.nb_player >= 2 && number_player.nb_player <= 5:
 		if number_player.nb_player >= 2:
 			players[0].Player_color = player_information.player_color
