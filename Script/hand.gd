@@ -64,10 +64,10 @@ func remove_card(color, count):
 				count -= 1
 				remove_child(wagon_cards[cur_card])
 				get_node("/root/Game/Discard_pile").add_card(wagon_cards[cur_card])
-				wagon_cards.remove(wagon_cards[cur_card])
+				wagon_cards.remove(cur_card)
 		elif (wagon_cards[cur_card].parameters["color"] == color):
 			count -= 1
 			remove_child(wagon_cards[cur_card])
 			get_node("/root/Game/Discard_pile").add_card(wagon_cards[cur_card])
-			wagon_cards.remove(wagon_cards[cur_card])
+			wagon_cards.remove(cur_card)
 		cur_card += 1
