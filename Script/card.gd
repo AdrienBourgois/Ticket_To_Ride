@@ -95,12 +95,12 @@ func _on_clicked(camera, event, click_pos, click_normal, shape_idx):
 		disable_connect()
 
 func _on_hover():
-	if (location == "deck_wagon_top" || location != "deck_wagon"):
+	if ((location == "deck_wagon_top" || location != "deck_wagon") && (!animated)):
 		recto_material.set_parameter(0, colors.purple)
 		verso_material.set_parameter(0, colors.purple)
 
 func _off_hover():
-	if (location == "deck_wagon_top" || location != "deck_wagon"):
+	if ((location == "deck_wagon_top" || location != "deck_wagon") && (!animated)):
 		recto_material.set_parameter(0, color_node)
 		verso_material.set_parameter(0, color_node)
 
