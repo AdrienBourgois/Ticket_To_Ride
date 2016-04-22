@@ -23,6 +23,14 @@ func add_card(card):
 			var color = card.parameters["color"]
 			count_card[color] = count_card[color] + 1
 			wagon_cards.append(card)
+			get_node("Plate/" + color).set_anchor(MARGIN_LEFT, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_anchor(MARGIN_BOTTOM, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_anchor(MARGIN_RIGHT, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_anchor(MARGIN_TOP, Control.ANCHOR_RATIO)
+			get_node("Plate/" + color).set_margin(MARGIN_LEFT, 0)
+			get_node("Plate/" + color).set_margin(MARGIN_BOTTOM, 0)
+			get_node("Plate/" + color).set_margin(MARGIN_RIGHT, 0)
+			get_node("Plate/" + color).set_margin(MARGIN_TOP, 0)
 			get_node("Plate/" + color).set_pos(Vector2(self.get_translation().x + (510 + translate[color].x * 7) , 580))
 			get_node("Plate/" + color).set_text(str(count_card[color]))
 			card.go_to(get_translation() + translate[color], get_rotation() + Vector3(180,90,0))
