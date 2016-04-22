@@ -2,13 +2,13 @@
 extends TextureButton
 
 func _on_SoloButton_pressed():
-	if (number_player.nb_player == 2) && (get_parent().get_node("Ready1").is_disabled()):
+	if (number_player.nb_player == 2) && (get_parent().get_node("LineEdit 2/OptionColor1/Ready1").is_disabled()):
 		get_game()
-	if (number_player.nb_player == 3) && (get_parent().get_node("Ready2").is_disabled()):
+	if (number_player.nb_player == 3) && (get_parent().get_node("LineEdit 3/OptionColor2/Ready2").is_disabled()):
 		get_game()
-	if (number_player.nb_player == 4) && (get_parent().get_node("Ready3").is_disabled()):
+	if (number_player.nb_player == 4) && (get_parent().get_node("LineEdit 4/OptionColor3/Ready3").is_disabled()):
 		get_game()
-	if (number_player.nb_player == 5) && (get_parent().get_node("Ready4").is_disabled()):
+	if (number_player.nb_player == 5) && (get_parent().get_node("LineEdit 5/OptionColor4/Ready4").is_disabled()):
 		get_game()
 
 func get_game():
