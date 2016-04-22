@@ -1,5 +1,5 @@
 
-extends Node
+extends Spatial
 
 var wagon_cards = []
 var road_cards = []
@@ -39,3 +39,19 @@ func add_card(card):
 	
 	card.location = "hand"
 	card.disable_connect()
+
+func request_card(color, count):
+	if (count_card[color] >= count):
+		return true
+	else:
+		return false
+
+func remove_card(color, count):
+	count_card[color] -= count
+	
+	var cur_card = 0
+	while(count):
+		if ((color == "locomotive" && wagon_cards[cur_card].parameters["sub-type"] == "locomotive") || (wagon_cards[cur_card].parameters["color"] == color)):
+			count -= 1
+			wagon_cards[cur_card].queue_free()
+		cur_card += 1
